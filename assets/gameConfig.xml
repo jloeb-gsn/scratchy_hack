@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<data>
+
+    <!-- Sound bundles -->
+    <LoaderMax name="music" prependURLs="" load="false" postLoad="false">
+        <MP3Loader url="sounds/CasinoMusic1.mp3" name="myMusic" load="false" autoPlay="false" type="MUSIC"/>
+    </LoaderMax>
+    <LoaderMax name="sounds" prependURLs="" load="false" postLoad="false">
+        <MP3Loader url="sounds/effects/aww.mp3" name="mySound" load="false" autoPlay="false" type="SFX"/>
+    </LoaderMax>
+
+    <!-- Assets bundles -->
+    <SWFLoader url="MyGameAssets.swf" name="BaseBundle" autoPlay="false" load="true"/>
+    <library bundle="BaseBundle">
+        <element id="PANEL_MyPanel" classname="PANEL_MyPanel" type="PANEL"/>
+    </library>
+
+    <!-- Game-specific configuration data -->
+    <ConfigData>
+        <minBadgeId>0</minBadgeId>
+        <maxBadgeId>1000</maxBadgeId>
+    </ConfigData>
+</data>
