@@ -1,1 +1,1 @@
-Replace the contents of this directory with the bundled art assets including the assetManifest.xml
+Replace the contents of this directory with the bundled art assets including the assetsManifest.xml
