@@ -10,10 +10,11 @@
 	<property name="appName" value="my_app" />
 	<property name="appClass" value="${package}/${appName}.as" />
 	<property name="appSwfFile" value="${appName}.swf" />
-	<property name="appHtmlFile" value="${appName}.html" />
+	<!--<property name="appHtmlFile" value="${appName}.html" />-->
 	<property name="loaderName" value="GameLoader" />
 	<property name="loaderClass" value="${package}/${loaderName}.as" />
 	<property name="loaderSwfFile" value="${loaderName}.swf" />
+	<property name="loaderHtmlFile" value="${loaderName}.html" />
 	<property name="appWidth" value="760" />
 	<property name="appHeight" value="680" />
 	<property name="frameRate" value="30" />
@@ -121,7 +122,7 @@
 
 
 		<!-- add user's flashvars -->
-		<replaceregexp file="${buildDir}/${appHtmlFile}"
+		<replaceregexp file="${buildDir}/${loaderHtmlFile}"
 			match="var flashvars = \{\};"
 			replace='var flashvars = {${flashVars}};'/>
 	</target>
@@ -137,7 +138,7 @@
 		</replaceregexp>
 	</target>
 
-	<target name="clean">
+	<target name="cleanAll" description="Clean bin-debug and bin-release">
 		<delete quiet="true" includeemptydirs="true">
 			<fileset dir="${buildDirDebug}"/>
 		</delete>
