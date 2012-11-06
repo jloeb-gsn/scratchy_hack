@@ -40,7 +40,7 @@
 	
 	
 	<!-- Compile all external fla and xfl files -->
-	<target name="compileAllExternal">
+	<target name="compileAllExternal" description="Compile all FLA/XFL files into /assets">
 
 		<!-- Get all files of type .fla or .xfl -->
 		<fileset dir="${assetsSrc}" id="extFiles">
@@ -73,6 +73,7 @@
 	<!-- compile the main loader -->
 	<target name="build">
 		<fail message="Don't use this target directly! Use buildDebug or buildRelease" unless="buildDir" />
+		<echo>${loaderClass}</echo>
 		<!-- clean build dir -->
 		<delete quiet="true" includeemptydirs="true">
 			<fileset dir="${buildDir}"/>
@@ -82,6 +83,21 @@
 		<copy todir="${buildDir}/assets">
 			<fileset dir="${assetsDir}" />
 		</copy>
+		<!-- generate loader class -->
+		<mxmlc file="${loaderClass}" output="${buildDir}/build_${loaderSwfFile}" debug="${isDebug}" incremental="false">
+			<source-path path-element="src"/>
+			<compiler.library-path dir="${basedir}/libs/" append="true">
+				<include name="*"/>
+				<exclude name="**/*debug*" unless="${isDebug}"/>
+			</compiler.library-path>
+			<define name="CONFIG::DEBUG" value="${isDebug}"/>
+			<!-- ## needed? -->
+			<define name="CONFIG::ANALYTICS" value="true"/>
+		</mxmlc>
+		<!-- we use the build_ name to avoid Flash Builder cache when dependency checking-->
+		<copy file="${buildDir}/build_${loaderSwfFile}" tofile="${buildDir}/${loaderSwfFile}" overwrite="true"/>
+		<delete file="${buildDir}/build_${loaderSwfFile}"/>
+		
 		<!-- generate main class -->
 		<mxmlc file="${appClass}" output="${buildDir}/build_${appSwfFile}" debug="${isDebug}" incremental="false">
 			<source-path path-element="src"/>
@@ -96,11 +112,13 @@
 		<!-- we use the build_ name to avoid Flash Builder cache when dependency checking-->
 		<copy file="${buildDir}/build_${appSwfFile}" tofile="${buildDir}/${appSwfFile}" overwrite="true"/>
 		<delete file="${buildDir}/build_${appSwfFile}"/>
+
 	</target>
 
-	<!-- generate the wrapper html -->
+	<!-- generate the wrapper html for the loader -->
 	<target name="wrapper">
-		<html-wrapper title="${appTitle}" file="${appName}.html" height="${appHeight}" width="${appWidth}" bgcolor="${bgColor}" application="app" swf="${appName}" output="${buildDir}" version-major="${version-major}" version-minor="${version-minor}" version-revision="${version-revision}"/>
+		<html-wrapper title="${appTitle}" file="${loaderName}.html" height="${appHeight}" width="${appWidth}" bgcolor="${bgColor}" application="app" swf="${loaderName}" output="${buildDir}" version-major="${version-major}" version-minor="${version-minor}" version-revision="${version-revision}"/>
+
 
 		<!-- add user's flashvars -->
 		<replaceregexp file="${buildDir}/${appHtmlFile}"
@@ -129,7 +147,7 @@
 	</target>
 
 	<!-- Zip the files in bin-release -->
-	<target name="zipBinRelease" depends="buildRelease">
+	<target name="zipBinRelease" depends="buildRelease" description="Zip the required files">
 		<mkdir dir="${distributeDir}" />
 		<!-- Time stamp the file name -->
 		<tstamp>
@@ -145,8 +163,7 @@
 		</zip>
 	</target>
 
-	<target name="buildDebug">
-		<echo>${loaderClass}</echo>
+	<target name="buildDebug" description="Build the debug version">
 		<antcall target="build">
 			<param name="buildDir" value="${buildDirDebug}" />
 			<param name="isDebug" value="true" />
@@ -156,7 +173,7 @@
 		</antcall>
 	</target>
 
-	<target name="buildRelease">
+	<target name="buildRelease" description="Build the release version">
 		<antcall target="build">
 			<param name="buildDir" value="${buildDirRelease}" />
 			<param name="isDebug" value="false" />
