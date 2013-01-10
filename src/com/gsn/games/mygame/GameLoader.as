@@ -1,7 +1,8 @@
 package com.gsn.games.mygame {
 
     import com.gsn.games.core.views.coresprite.CoreSprite;
-
+    import com.gsn.games.shared.utils.DebugUtils;
+    
     import flash.utils.describeType;
 
     // AUTOMATED METADATA. DO NOT UPDATE.This metadata is replaced by the ANT task during compile
@@ -19,8 +20,12 @@ package com.gsn.games.mygame {
         public var assignedProgressBarPath:String;
         [appPathDefinition(pathName = "GameApp.swf")]
         public var assignedAppPath:String;
-
-
+		// END AUTOMATED METADATA
+		
+		
+		//--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
         public function GameLoader() {
 
 
@@ -28,11 +33,16 @@ package com.gsn.games.mygame {
             //this.stage.align = StageAlign.TOP_LEFT;
             //this.stage.scaleMode = StageScaleMode.NO_SCALE;
 
+			// Set debugging level
+			DebugUtils.loggingLevel=DebugUtils.VERBOSE;
+			
             super();
         }
 
 
-        // Private
+		//--------------------------------------------
+		// PROTECTED
+		//--------------------------------------------
 		/**
 		 * Retrieve the assetPaths out of the metadata.
 		 * No need to update.
