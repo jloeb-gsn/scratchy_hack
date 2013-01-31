@@ -160,6 +160,7 @@
 			</zipfileset>
 			<fileset dir="${buildDirRelease}">
 				<include name="${appSwfFile}" />
+				<include name="${loaderSwfFile}" />
 			</fileset>
 		</zip>
 	</target>
