@@ -73,6 +73,9 @@ package com.gsn.games.mygame {
                 arg = metaDataPath..arg.(@key == "pathName");
                 if (arg) {
                     appPath = (arg.@value);
+					if (appPath.indexOf("http") == -1) {
+						appPath = mesmoResourceDir + appPath;
+					}
                 }
             }
 
