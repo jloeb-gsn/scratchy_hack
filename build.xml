@@ -147,6 +147,24 @@
 		</delete>
 	</target>
 
+	<!-- Zip the files in bin-debug -->
+		<target name="zipBinDebug" depends="buildDebug" description="Zip the required files">
+			<mkdir dir="${distributeDir}" />
+			<!-- Time stamp the file name -->
+			<tstamp>
+				<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+			</tstamp>
+			<echo>time: ${zip_time}</echo>
+			<zip destfile="${distributeDir}/${appName}-debug-${zip_time}.zip" update="true">
+				<zipfileset dir="${buildDirDebug}/assets" prefix="assets">
+				</zipfileset>
+				<fileset dir="${buildDirDebug}">
+					<include name="${appSwfFile}" />
+					<include name="${loaderSwfFile}" />
+				</fileset>
+			</zip>
+		</target>
+	
 	<!-- Zip the files in bin-release -->
 	<target name="zipBinRelease" depends="buildRelease" description="Zip the required files">
 		<mkdir dir="${distributeDir}" />
@@ -155,7 +173,7 @@
 			<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
 		</tstamp>
 		<echo>time: ${zip_time}</echo>
-		<zip destfile="${distributeDir}/${appName}-${zip_time}.zip" update="true">
+		<zip destfile="${distributeDir}/${appName}-release-${zip_time}.zip" update="true">
 			<zipfileset dir="${buildDirRelease}/assets" prefix="assets">
 			</zipfileset>
 			<fileset dir="${buildDirRelease}">
