@@ -11,7 +11,8 @@ package com.gsn.games.mygame {
     import com.gsn.games.mygame.services.GameAnalyticsHelper;
     import com.gsn.games.mygame.views.MyGameView;
     import com.gsn.games.mygame.views.MyGameViewMediator;
-
+    import com.gsn.games.shared.utils.DebugUtils;
+    
     import flash.display.DisplayObjectContainer;
 
     /**
@@ -32,25 +33,32 @@ package com.gsn.games.mygame {
          * */
         override public function startup():void {
 
-            trace("startup");
+			//!! map your custom commands, models, services, mediators here or in the bootstrap functions below...
 
-            //!! map your custom commands, models, services, mediators here or in the bootstrap functions below...
+			
+			
+			// Trace startup success. Use the different levels of debugging to help filter trace amount
+            DebugUtils.log("GameContext.startup()", "GF2", DebugUtils.VERBOSE);
 
-            // Main view
+			// EXAMPLES:
+			
+            // Mapping the main view
             mediatorMap.mapView(MyGameView, MyGameViewMediator);
 
+			// When the framework is ready, the command is called which draws the first view
+			commandMap.mapEvent(StartupEvent.GAMEFORGE2_READY, AddGameViewCommand, StartupEvent);
+			
             // Example of a singleton Model
             injector.mapSingleton(GameModel);
-
-            // When the framework is ready, the command is called which draws the first view
-            commandMap.mapEvent(StartupEvent.GAMEFORGE2_READY, AddGameViewCommand, StartupEvent);
+            
+			// Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);
 
             // Example setup for analytics tracking
             commandMap.mapEvent(GameAnalyticsEvent.TRACK, GameAnalyticsCommand, GameAnalyticsEvent);
 
 
-            // After you've mapped your items, call the super to start up the rest of the framework
+            // After you've mapped your items, call the super to start up the rest of the framework. This is done at the end so that your functions are ready when the framework starts
             super.startup();
 
         }
