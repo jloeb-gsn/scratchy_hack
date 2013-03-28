@@ -1,5 +1,7 @@
 package com.gsn.games.mygame {
 
+    import com.gsn.games.shared.utils.DebugUtils;
+    
     import flash.display.Sprite;
 
 	// AUTOMATED METADATA. DO NOT UPDATE.This metadata is replaced by the ANT task during compile
@@ -13,6 +15,7 @@ package com.gsn.games.mygame {
         public function GameApp() {
 
             // Initialize the GameContext
+			DebugUtils.loggingLevel=DebugUtils.VERBOSE;
             _context = new GameContext(this);
 
         }
