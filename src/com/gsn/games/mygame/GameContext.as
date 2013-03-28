@@ -67,7 +67,7 @@ package com.gsn.games.mygame {
          * Provide the devKey for your game.
          * */
         override protected function assignDevKey():String {
-            return "98vspnAnjT3TUkqpbSrMGK6ApsGjy9KkK1Pvfeasin3tbodUWLe9tFAxOZB8trjc";
+            return "enter-dev-key";
         }
 
         /**
