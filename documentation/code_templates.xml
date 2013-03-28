@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Create a RL command" enabled="true" name="asd_gsn_command">package ${enclosing_package} {
+
+    import org.robotlegs.mvcs.Command;
+
+    public class ${enclosing_type} extends Command {
+
+        //--------------------------------------------
+		// INJECTIONS
+		//--------------------------------------------
+
+		//--------------------------------------------
+		// CONSTANTS
+		//--------------------------------------------
+
+        //--------------------------------------------
+		// PROPERTIES
+		//--------------------------------------------
+
+        //--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
+        public function ${enclosing_type}() {
+            super();
+        }
+
+        override public function execute():void {
+
+            // &lt;Insert your code here&gt;
+            ${cursor}
+
+        }
+
+        //--------------------------------------------
+		// PROTECTED
+		//--------------------------------------------
+
+        //--------------------------------------------
+		// PRIVATE
+		//--------------------------------------------
+        
+    }
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Creates a new event" enabled="true" name="asd_gsn_event">package ${enclosing_package} {
+    import flash.events.Event;
+    /**
+     * This event is related to...
+     */
+    public class ${enclosing_type} extends Event {
+        protected static const TYPE:String = "${enclosing_type}_";
+        public static const SOME_GAME_EVENT:String = TYPE + "SOME_GAME_EVENT";
+        
+        // A link to some data to communicate to the listener
+        //public var vo:MyGameEventVO;
+        
+        public function ${enclosing_type}(type:String, bubbles:Boolean = false, cancelable:Boolean = false)
+        {
+            super(type, bubbles, cancelable);
+        }
+        
+        // Cloning needed to access source events as injection
+        // in command classes
+        override public function clone() : Event {
+            return new ${enclosing_type}();
+        }
+    }
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Creates a RL Mediator" enabled="true" name="asd_gsn_mediator">package ${enclosing_package} {
+
+    import com.gsn.games.core.controllers.events.GUIEvent;
+    import com.gsn.games.core.controllers.events.StartupEvent;
+    import org.robotlegs.mvcs.Mediator;
+
+    /**
+     * Mediator : communication point between a view and the game.
+     * This class should not have any UI Logic.
+     */
+    public class ${enclosing_type} extends Mediator {
+        //--------------------------------------------
+		// INJECTIONS
+		//--------------------------------------------
+        // Reference to the view mapped to this mediator
+        [Inject]
+        public var view:MyView;
+
+        // Needed to inject properties of view
+        //[Inject]
+        //public var injector:IInjector;
+
+        //--------------------------------------------
+		// CONSTANTS
+		//--------------------------------------------
+        
+        //--------------------------------------------
+		// PROPERTIES
+		//--------------------------------------------
+
+        //--------------------------------------------
+		// GETTERS/SETTERS
+		//--------------------------------------------
+
+		//--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
+        /**
+         * Fired as soon as the mapped View is added to stage.
+         * */
+        override public function onRegister():void {
+            trace("onRegister+++");
+
+			// Add View listeners here
+			//addViewListener(MyGameEvent.SOME_VIEW_EVENT, dispatch);
+			
+            // &lt;Add contextListeners here&gt;
+            //addContextListener(MyGameEvent.SOME_GAME_EVENT, onSomeEvent);
+
+
+            // Call the super.onRegister() to complete mediation
+            super.onRegister();
+            trace("onRegister---");
+        }
+
+        /**
+         * Fired when the view is removed from the stage.
+         * Handle all cleanup of eventListeners here.
+         * */
+        override public function onRemove():void {
+			
+            // Clean up listeners
+            //removeViewListener(MyGameEvent.SOME_VIEW_EVENT, dispatch);
+			//removeContextListener(MyGameEvent.SOME_GAME_EVENT, onSomeEvent);
+
+            // &lt;Add your code here&gt;
+
+            // Call the super.onRemove() to complete removal of the mediator
+            super.onRemove();
+        }
+
+        //--------------------------------------------
+		// PRIVATE
+		//--------------------------------------------
+        private function onSomeEvent(event:GameEvent):void {
+            // Example contextListener event
+            //view.doSomething(event.someParams);
+        }
+
+    }
+
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Creates a new RL Model" enabled="true" name="asd_gsn_model">package ${enclosing_package} {
+    import org.robotlegs.mvcs.Actor;
+    /**
+     * This model keeps track of...
+     */
+    public class ${enclosing_type} extends Actor {
+        //--------------------------------------------
+		// ATTRIBUTES
+		//--------------------------------------------
+        private var _vo:MyVO;
+        public function get vo() : MyVO {
+            return _vo;
+        }
+        public function set vo(value : MyVO) : void {
+            _vo = value;
+        }
+
+        //--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
+        public function ${enclosing_type} () {
+        }
+        //--------------------------------------------
+		// PROTECTED
+		//--------------------------------------------
+		//--------------------------------------------
+		// PRIVATE
+		//--------------------------------------------
+    }
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Creates a new RL Service" enabled="true" name="asd_gsn_service">package ${enclosing_package} {
+    import org.robotlegs.mvcs.Actor;
+    /**
+     * This service is responsible for ...
+     */
+    public class ${enclosing_type} extends Actor {
+        //--------------------------------------------
+		// ATTRIBUTES
+		//--------------------------------------------
+        
+		//--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
+        public function ${enclosing_type} () {
+        }
+        
+        
+        //--------------------------------------------
+		// PROTECTED
+		//--------------------------------------------
+		
+		//--------------------------------------------
+		// PRIVATE
+		//--------------------------------------------
+    }
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Example of using the LayerManager to show or hide a view" enabled="true" name="asd_gsn_showhideview">		protected var layerManager:LayerManager;
+	
+        public function showHideMyView(show:Boolean) : void {
+            if (myView == null) {
+                myView = new MyView(); 
+                //myView.addEventListener(MyGameEvent.DOSOMETHING, onDoSomething);   
+            }
+            showHideView(myView, show);
+        }
+
+        /**
+        * Shows/Hide important game panels
+        */
+        protected function showHideView(view:Sprite, show:Boolean, layer:String = LayerManager.MIDGROUND_LAYER) : void {
+            if (show) {
+                layerManager.addChild(view, layer);
+            } else if (layerManager.getChildIndex(view, layer) &gt; -1) {
+                layerManager.removeChild(view, layer);
+            }
+        }
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Creates a new value object" enabled="true" name="asd_gsn_valueobject">package ${enclosing_package} {
+    /**
+     * This value object keeps track of...
+     */
+    public class ${enclosing_type} {
+        // public var myAttribute:Number;
+        public function clone() : ${enclosing_type} {
+            return new ${enclosing_type}();
+        }
+    }
+}
+</template><template autoinsert="true" context="com.adobe.flexide.as.core.codetemplates.action_script" deleted="false" description="Create a RL view" enabled="true" name="asd_gsn_view">package ${enclosing_package} {
+
+    import com.gsn.games.shared.assetsmanagement.AssetManager;
+    import com.gsn.games.shared.assetsmanagement.AssetVO;
+    
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+
+	/**
+	 * Sample View
+	 * */
+    public class ${enclosing_type} extends Sprite {
+
+		//--------------------------------------------
+		// CONSTANTS
+		//--------------------------------------------
+		
+		//--------------------------------------------
+		// PROPERTIES
+		//--------------------------------------------
+        // Example of properties
+        protected var myPanel:Sprite;
+		protected var myProp:DisplayObject;
+		
+        //--------------------------------------------
+		// PUBLIC
+		//--------------------------------------------
+        public function ${enclosing_type}() {
+
+            super();
+            initUI();
+        }
+		
+        
+        //--------------------------------------------
+		// PROTECTED
+		//--------------------------------------------
+        /**
+         * Requests all ui elements for this view
+         *
+         * */
+        protected function initUI() : void {
+            
+            // Request assets
+            var v:Vector.&lt;String&gt; = new Vector.&lt;String&gt;();
+            
+            // Add identifiers of all assets needed at this time by this view
+            // Example: we want one instance of an asset identified by "PANEL_MyPanel"
+            // Note that identifier is different than classname
+            // This identifier is what you have defined in gameConfig.xml
+            v.push("PANEL_MyPanel");
+            
+            AssetManager.instance.bulkRequest(v, onAssetsLoaded);
+            
+        }
+        
+        /**
+         * Callback triggered when all UI elements are received from Asset Manager.
+         * Immediate if related bundles already loaded.
+         * This function assembles &amp; configures the UI
+         * */
+        protected function onAssetsLoaded(v:Vector.&lt;AssetVO&gt;) : void {
+            
+            // Loop over all assets returned from request
+            // Do something with them
+            for each (var vo:AssetVO in v) {
+                switch (vo.name) {
+                    case "PANEL_MyPanel":
+                        myPanel = vo.asset as Sprite;
+                        addChild(myPanel);	
+                        break;
+                }
+            }
+            
+            // Get references on UI elements
+            myProp = myPanel.getChildByName("PROP_myProperty") as Sprite;
+            
+            // Swap placeholders if needed
+            // This utility function replaces the placeholder identified by "PROP_myBackground" 
+            // by the display object myNewBackground in container myPanel
+            //FlashUtils.swapSymbols("PROP_myBackground", myNewBackground, myPanel);
+            
+        }
+        
+        //--------------------------------------------
+		// PRIVATE
+		//--------------------------------------------
+        
+    }
+}
+</template></templates>
