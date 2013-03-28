@@ -3,7 +3,7 @@ package com.gsn.games.mygame.views {
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
-
+    
     import org.robotlegs.mvcs.Mediator;
 
     /**
