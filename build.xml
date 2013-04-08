@@ -10,11 +10,14 @@
 	<property name="appName" value="my_app" />
 	<property name="appClass" value="${package}/${appName}.as" />
 	<property name="appSwfFile" value="${appName}.swf" />
+	<property name="appTitle" value="Project template" />
 	<!--<property name="appHtmlFile" value="${appName}.html" />-->
 	<property name="loaderName" value="GameLoader" />
 	<property name="loaderClass" value="${package}/${loaderName}.as" />
 	<property name="loaderSwfFile" value="${loaderName}.swf" />
 	<property name="loaderHtmlFile" value="${loaderName}.html" />
+	<property name="progressBarName" value="ProgressBar" />
+	<property name="progressBarSwfFile" value="${progressBarName}.swf" />
 	<property name="appWidth" value="760" />
 	<property name="appHeight" value="680" />
 	<property name="frameRate" value="30" />
@@ -85,6 +88,7 @@
 			<fileset dir="${assetsDir}" />
 		</copy>
 		<!-- generate loader class -->
+		<antcall target="updateLoaderMetatag"/>
 		<mxmlc file="${loaderClass}" output="${buildDir}/build_${loaderSwfFile}" debug="${isDebug}" incremental="false">
 			<source-path path-element="src"/>
 			<compiler.library-path dir="${basedir}/libs/" append="true">
@@ -127,17 +131,39 @@
 			replace='var flashvars = {${flashVars}};'/>
 	</target>
 
-	<!-- update the metatag in the loader swf -->
+	<!-- update the metatags in the loader swf -->
 	<target name="updateLoaderMetatag">
 		<replaceregexp>
 			<regexp pattern="\[SWF\(.*\)\]" />
-			<substitution expression='[SWF(width="${appWidth}", height="${appHeight}", framerate="${frameRate}", backgroundColor="#${bgColor}")]' />
+			<substitution expression='[SWF(width="${appWidth}", height="${appHeight}", frameRate="${frameRate}", backgroundColor="#${bgColor}")]' />
 			<fileset dir="${package}">
 				<include name="${loaderName}.as" />
 			</fileset>
 		</replaceregexp>
+		<replaceregexp>
+			<regexp pattern="\[appPathDefinition\(.*\)\]" />
+			<substitution expression='[appPathDefinition(pathName="${appSwfFile}")]' />
+			<fileset dir="${package}">
+				<include name="${loaderName}.as" />
+			</fileset>
+		</replaceregexp>
+		<replaceregexp>
+			<regexp pattern="\[progressPathDefinition\(.*\)\]" />
+			<substitution expression='[progressPathDefinition(pathName="${progressBarSwfFile}")]' />
+			<fileset dir="${package}">
+				<include name="${loaderName}.as" />
+			</fileset>
+		</replaceregexp>
+		<replaceregexp>
+			<regexp pattern="\[SWF\(.*\)\]" />
+			<substitution expression='[SWF(width="${appWidth}", height="${appHeight}", frameRate="${frameRate}", backgroundColor="#${bgColor}")]' />
+			<fileset dir="${package}">
+				<include name="${appName}.as" />
+			</fileset>
+		</replaceregexp>
 	</target>
 
+	<!-- Clean out the bin-debug and bin-release folders -->
 	<target name="cleanAll" description="Clean bin-debug and bin-release">
 		<delete quiet="true" includeemptydirs="true">
 			<fileset dir="${buildDirDebug}"/>
@@ -148,25 +174,25 @@
 	</target>
 
 	<!-- Zip the files in bin-debug -->
-		<target name="zipBinDebug" depends="buildDebug" description="Zip the required files">
-			<mkdir dir="${distributeDir}" />
-			<!-- Time stamp the file name -->
-			<tstamp>
-				<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
-			</tstamp>
-			<echo>time: ${zip_time}</echo>
-			<zip destfile="${distributeDir}/${appName}-debug-${zip_time}.zip" update="true">
-				<zipfileset dir="${buildDirDebug}/assets" prefix="assets">
-				</zipfileset>
-				<fileset dir="${buildDirDebug}">
-					<include name="${appSwfFile}" />
-					<include name="${loaderSwfFile}" />
-				</fileset>
-			</zip>
-		</target>
+	<target name="zipBinDebug" depends="buildDebug" description="Builds the bin-debug folder, then zips the required files">
+		<mkdir dir="${distributeDir}" />
+		<!-- Time stamp the file name -->
+		<tstamp>
+			<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+		</tstamp>
+		<echo>time: ${zip_time}</echo>
+		<zip destfile="${distributeDir}/${appName}-debug-${zip_time}.zip" update="true">
+			<zipfileset dir="${buildDirDebug}/assets" prefix="assets">
+			</zipfileset>
+			<fileset dir="${buildDirDebug}">
+				<include name="${appSwfFile}" />
+				<include name="${loaderSwfFile}" />
+			</fileset>
+		</zip>
+	</target>
 	
 	<!-- Zip the files in bin-release -->
-	<target name="zipBinRelease" depends="buildRelease" description="Zip the required files">
+	<target name="zipBinRelease" depends="buildRelease" description="Builds the bin-release folder, then zips the required files">
 		<mkdir dir="${distributeDir}" />
 		<!-- Time stamp the file name -->
 		<tstamp>
@@ -183,6 +209,7 @@
 		</zip>
 	</target>
 
+	<!-- Build the debug version -->
 	<target name="buildDebug" description="Build the debug version">
 		<antcall target="build">
 			<param name="buildDir" value="${buildDirDebug}" />
@@ -192,11 +219,13 @@
 			<param name="buildDir" value="${buildDirDebug}" />
 		</antcall>
 	</target>
-
+	
+	<!-- Build the release version -->
 	<target name="buildRelease" description="Build the release version">
 		<antcall target="build">
 			<param name="buildDir" value="${buildDirRelease}" />
 			<param name="isDebug" value="false" />
 		</antcall>
 	</target>
+	
 </project>
