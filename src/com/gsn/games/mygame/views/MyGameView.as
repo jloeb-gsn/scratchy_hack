@@ -54,15 +54,15 @@ package com.gsn.games.mygame.views {
         protected function initUI():void {
 
             // Request assets
-            var v:Vector.<String> = new Vector.<String>();
+            var assetNameV:Vector.<String> = new Vector.<String>();
 
             // Add identifiers of all assets needed at this time by this view
             // Example: we want one instance of an asset identified by "PANEL_MyPanel"
             // Note that identifier is different than classname
             // This identifier is what you have defined in gameConfig.xml
-            v.push("PANEL_MyPanel");
+            assetNameV.push("PANEL_MyPanel");
 
-            AssetManager.instance.bulkRequest(v, onAssetsLoaded);
+            AssetManager.instance.bulkRequest(assetNameV, onAssetsLoaded);
 
         }
 
@@ -71,11 +71,11 @@ package com.gsn.games.mygame.views {
          * Immediate if related bundles already loaded.
          * This function assembles & configures the UI
          * */
-        protected function onAssetsLoaded(v:Vector.<AssetVO>):void {
+        protected function onAssetsLoaded(loadedAssetsV:Vector.<AssetVO>):void {
 
             // Loop over all assets returned from request
             // Do something with them
-            for each (var vo:AssetVO in v) {
+            for each (var vo:AssetVO in loadedAssetsV) {
                 switch (vo.name) {
                     case "PANEL_MyPanel":
                         myPanel = vo.asset as Sprite;
