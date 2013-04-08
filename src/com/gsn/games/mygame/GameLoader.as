@@ -2,11 +2,11 @@ package com.gsn.games.mygame {
 
     import com.gsn.games.core.views.coresprite.CoreSprite;
     import com.gsn.games.shared.utils.DebugUtils;
-    
+
     import flash.utils.describeType;
 
     // AUTOMATED METADATA. DO NOT UPDATE.This metadata is replaced by the ANT task during compile
-    [SWF(width = "760", height = "550", frameRate = "30")]
+    [SWF(width = "760", height = "680", frameRate = "30", backgroundColor = "#FFFFFF")]
 
     /**
      * Game implementation of CoreSprite as a root level SWF to handle loading progress bar and then game app.
@@ -20,12 +20,13 @@ package com.gsn.games.mygame {
         public var assignedProgressBarPath:String;
         [appPathDefinition(pathName = "GameApp.swf")]
         public var assignedAppPath:String;
-		// END AUTOMATED METADATA
-		
-		
-		//--------------------------------------------
-		// PUBLIC
-		//--------------------------------------------
+
+        // END AUTOMATED METADATA
+
+
+        //--------------------------------------------
+        // PUBLIC
+        //--------------------------------------------
         public function GameLoader() {
 
 
@@ -33,20 +34,20 @@ package com.gsn.games.mygame {
             //this.stage.align = StageAlign.TOP_LEFT;
             //this.stage.scaleMode = StageScaleMode.NO_SCALE;
 
-			// Set debugging level
-			DebugUtils.loggingLevel=DebugUtils.VERBOSE;
-			
+            // Set debugging level
+            DebugUtils.loggingLevel = DebugUtils.VERBOSE;
+
             super();
         }
 
 
-		//--------------------------------------------
-		// PROTECTED
-		//--------------------------------------------
-		/**
-		 * Retrieve the assetPaths out of the metadata.
-		 * No need to update.
-		 * */
+        //--------------------------------------------
+        // PROTECTED
+        //--------------------------------------------
+        /**
+         * Retrieve the assetPaths out of the metadata.
+         * No need to update.
+         * */
         override protected function assignPaths():void {
             // Generate the assets path
             super.assignPaths();
@@ -73,9 +74,9 @@ package com.gsn.games.mygame {
                 arg = metaDataPath..arg.(@key == "pathName");
                 if (arg) {
                     appPath = (arg.@value);
-					if (appPath.indexOf("http") == -1) {
-						appPath = mesmoResourceDir + appPath;
-					}
+                    if (appPath.indexOf("http") == -1) {
+                        appPath = mesmoResourceDir + appPath;
+                    }
                 }
             }
 
