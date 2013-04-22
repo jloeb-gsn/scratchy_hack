@@ -12,6 +12,7 @@ package com.gsn.games.mygame {
     import com.gsn.games.mygame.views.MyGameView;
     import com.gsn.games.mygame.views.MyGameViewMediator;
     import com.gsn.games.shared.utils.DebugUtils;
+    import com.gsn.games.shared.utils.LayerManager;
     
     import flash.display.DisplayObjectContainer;
 
@@ -50,6 +51,8 @@ package com.gsn.games.mygame {
 			
             // Example of a singleton Model
             injector.mapSingleton(GameModel);
+			
+			injector.mapValue(LayerManager, new LayerManager(contextView));
             
 			// Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);

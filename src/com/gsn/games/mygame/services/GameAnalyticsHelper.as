@@ -36,7 +36,7 @@ package com.gsn.games.mygame.services {
                     break;*/
             }
 
-            DebugUtils.log("GameAnalyticsHelper.trackCustomEvent() logging:" + eventName + " as:" + logName);
+            DebugUtils.log("GameAnalyticsHelper.trackCustomEvent() logging:" + eventName + " as:" + logName, "Game");
 
             // Log event
             var vo:AnalyticsVO = new AnalyticsVO("custom", logName);

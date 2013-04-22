@@ -10,7 +10,7 @@
     </LoaderMax>
 
     <!-- Assets bundles -->
-    <SWFLoader url="MyGameAssets.swf" name="BaseBundle" autoPlay="false" load="true"/>
+    <SWFLoader url="MyGameAssets.swf" name="BaseBundle" load="true" postLoad="false" eventType="zippee"/>
     <library bundle="BaseBundle">
         <element id="PANEL_MyPanel" classname="PANEL_MyPanel" type="PANEL"/>
     </library>

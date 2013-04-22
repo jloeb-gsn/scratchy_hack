@@ -5,6 +5,8 @@ package com.gsn.games.mygame.views {
     import com.gsn.games.mygame.models.GameVO;
     import com.gsn.games.shared.assetsmanagement.AssetManager;
     import com.gsn.games.shared.assetsmanagement.AssetVO;
+    import com.gsn.games.shared.utils.LayerManager;
+    
 
     import flash.display.MovieClip;
     import flash.display.Sprite;

@@ -1,6 +1,7 @@
 package com.gsn.games.mygame.views {
 
     import com.gsn.games.core.controllers.events.StartupEvent;
+    import com.gsn.games.core.models.languagemanager.ILanguageManager;
     import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
     
@@ -16,6 +17,8 @@ package com.gsn.games.mygame.views {
         // Reference to the view mapped to this mediator
         [Inject]
         public var view:MyGameView;
+		[Inject]
+		public var languageManager:ILanguageManager;
 
         // PROPERTIES
 
@@ -43,6 +46,9 @@ package com.gsn.games.mygame.views {
 
             // Call the super.onRegister() to complete mediation
             super.onRegister();
+			
+			var balanceText:String = languageManager.getMessage("balance_label");
+			trace("test lang lookup:" + balanceText);
 
         }
 
