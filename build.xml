@@ -178,7 +178,7 @@
 		<mkdir dir="${distributeDir}" />
 		<!-- Time stamp the file name -->
 		<tstamp>
-			<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+			<format property="zip_time" pattern="yyyy-MM-dd'T'HH_mm_ss"/>
 		</tstamp>
 		<echo>time: ${zip_time}</echo>
 		<zip destfile="${distributeDir}/${appName}-debug-${zip_time}.zip" update="true">
@@ -196,7 +196,7 @@
 		<mkdir dir="${distributeDir}" />
 		<!-- Time stamp the file name -->
 		<tstamp>
-			<format property="zip_time" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+			<format property="zip_time" pattern="yyyy-MM-dd'T'HH_mm_ss"/>
 		</tstamp>
 		<echo>time: ${zip_time}</echo>
 		<zip destfile="${distributeDir}/${appName}-release-${zip_time}.zip" update="true">
