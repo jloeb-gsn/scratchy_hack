@@ -1,5 +1,6 @@
 package com.gsn.games.mygame.views {
 
+    import com.gsn.games.core.services.soundmanager.SoundManager;
     import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
     import com.gsn.games.mygame.models.GameVO;
@@ -7,7 +8,6 @@ package com.gsn.games.mygame.views {
     import com.gsn.games.shared.assetsmanagement.AssetVO;
     import com.gsn.games.shared.utils.LayerManager;
     
-
     import flash.display.MovieClip;
     import flash.display.Sprite;
     import flash.events.Event;
@@ -63,6 +63,7 @@ package com.gsn.games.mygame.views {
             // Note that identifier is different than classname
             // This identifier is what you have defined in gameConfig.xml
             assetNameV.push("PANEL_MyPanel");
+			assetNameV.push("click_02_sound");
 
             AssetManager.instance.bulkRequest(assetNameV, onAssetsLoaded);
 
@@ -83,6 +84,10 @@ package com.gsn.games.mygame.views {
                         myPanel = vo.asset as Sprite;
                         addChild(myPanel);
                         break;
+					case "click_02_sound":
+						// Register the sound
+						SoundManager.instance.registerSound(vo.sound, "click", SoundManager.SOUND_TYPE_SFX);
+						break;
                 }
             }
 
@@ -102,11 +107,16 @@ package com.gsn.games.mygame.views {
         }
 
         protected function onMouseClick(e:Event):void {
+			
+			// Play the click sound
+			SoundManager.instance.playSound("click");
+			
             // Request update of UI from model
             this.getModelUpdate();
 
             // Example analytics event
             this.trackEvent();
+			
         }
 
         //--------------------------------------------
