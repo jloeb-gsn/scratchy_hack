@@ -4,6 +4,8 @@ package com.gsn.games.mygame.views {
     import com.gsn.games.core.models.languagemanager.ILanguageManager;
     import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
+    import com.gsn.games.mygame.services.GameAnalyticsHelper;
+    import com.gsn.games.shared.utils.DebugUtils;
     
     import org.robotlegs.mvcs.Mediator;
 
@@ -19,6 +21,8 @@ package com.gsn.games.mygame.views {
         public var view:MyGameView;
 		[Inject]
 		public var languageManager:ILanguageManager;
+		[Inject]
+		public var analytics:GameAnalyticsHelper;
 
         // PROPERTIES
 
@@ -40,15 +44,16 @@ package com.gsn.games.mygame.views {
             // Listeners to the game
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
 
-            // Example usage of analytics tracking
+            // Example usage of analytics tracking from the view
             addViewListener(GameAnalyticsEvent.TRACK, dispatch);
 
 
             // Call the super.onRegister() to complete mediation
             super.onRegister();
 			
+			// Example using the LanguageManager to look up a text message
 			var balanceText:String = languageManager.getMessage("balance_label");
-			trace("test lang lookup:" + balanceText);
+			DebugUtils.log(("test lang lookup:" + balanceText),"TestGame", DebugUtils.VERBOSE);
 
         }
 
@@ -72,6 +77,9 @@ package com.gsn.games.mygame.views {
         protected function onGameModelUpdated(event:GameEvent):void {
             // Example output
             view.updateFromModel(event.vo);
+			
+			// Example calling an analytics event through GameAnalyticsHelper
+			analytics.trackPopupCount();
         }
 
         // PRIVATE

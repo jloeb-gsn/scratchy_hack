@@ -127,6 +127,7 @@ package com.gsn.games.mygame.views {
         }
 
         private function trackEvent():void {
+			// This event is received by GameAnalyticsCommand
             var gaEvent:GameAnalyticsEvent = new GameAnalyticsEvent(GameAnalyticsEvent.TRACK);
             gaEvent.analyticsType = GameAnalyticsEvent.TRACK_DO_SOMETHING;
             dispatchEvent(gaEvent);
