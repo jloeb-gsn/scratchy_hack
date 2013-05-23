@@ -3,9 +3,7 @@ package com.gsn.games.mygame {
     import com.gsn.games.core.CoreContext;
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.mygame.controllers.commands.AddGameViewCommand;
-    import com.gsn.games.mygame.controllers.commands.GameAnalyticsCommand;
     import com.gsn.games.mygame.controllers.commands.GetModelUpdateCommand;
-    import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
     import com.gsn.games.mygame.models.GameModel;
     import com.gsn.games.mygame.services.GameAnalyticsHelper;
@@ -56,9 +54,6 @@ package com.gsn.games.mygame {
             
 			// Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);
-
-            // Example setup for analytics tracking
-            commandMap.mapEvent(GameAnalyticsEvent.TRACK, GameAnalyticsCommand, GameAnalyticsEvent);
 
 
             // After you've mapped your items, call the super to start up the rest of the framework. This is done at the end so that your functions are ready when the framework starts

@@ -6,7 +6,7 @@ package com.gsn.games.mygame.views {
     import com.gsn.games.mygame.controllers.events.GameEvent;
     import com.gsn.games.mygame.services.GameAnalyticsHelper;
     import com.gsn.games.shared.utils.DebugUtils;
-    
+
     import org.robotlegs.mvcs.Mediator;
 
     /**
@@ -19,10 +19,10 @@ package com.gsn.games.mygame.views {
         // Reference to the view mapped to this mediator
         [Inject]
         public var view:MyGameView;
-		[Inject]
-		public var languageManager:ILanguageManager;
-		[Inject]
-		public var analytics:GameAnalyticsHelper;
+        [Inject]
+        public var languageManager:ILanguageManager;
+        [Inject]
+        public var gameAnalytics:GameAnalyticsHelper;
 
         // PROPERTIES
 
@@ -45,15 +45,15 @@ package com.gsn.games.mygame.views {
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
 
             // Example usage of analytics tracking from the view
-            addViewListener(GameAnalyticsEvent.TRACK, dispatch);
+            addViewListener(GameAnalyticsEvent.TRACK, onTrackClick);
 
 
             // Call the super.onRegister() to complete mediation
             super.onRegister();
-			
-			// Example using the LanguageManager to look up a text message
-			var balanceText:String = languageManager.getMessage("balance_label");
-			DebugUtils.log(("test lang lookup:" + balanceText),"TestGame", DebugUtils.VERBOSE);
+
+            // Example using the LanguageManager to look up a text message
+            var balanceText:String = languageManager.getMessage("balance_label");
+            DebugUtils.log(("test lang lookup:" + balanceText), "TestGame", DebugUtils.VERBOSE);
 
         }
 
@@ -77,9 +77,18 @@ package com.gsn.games.mygame.views {
         protected function onGameModelUpdated(event:GameEvent):void {
             // Example output
             view.updateFromModel(event.vo);
+
+            // Example calling an analytics event through GameAnalyticsHelper
+            gameAnalytics.trackPopupCount();
+        }
+
+		/**
+		 * Event handler for tracking events from the view
+		 * */
+        protected function onTrackClick(event:GameAnalyticsEvent):void {
+			// The GameAnalyticsHelper shows an example of switching tracking events based on the event.analyticsType
 			
-			// Example calling an analytics event through GameAnalyticsHelper
-			analytics.trackPopupCount();
+            gameAnalytics.trackCustomEvent(event.analyticsType);
         }
 
         // PRIVATE
