@@ -60,7 +60,7 @@
         // Cloning needed to access source events as injection
         // in command classes
         override public function clone() : Event {
-            return new ${enclosing_type}();
+            return new ${enclosing_type}(type);
         }
     }
 }
