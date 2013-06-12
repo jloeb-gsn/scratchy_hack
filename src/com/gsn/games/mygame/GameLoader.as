@@ -7,7 +7,7 @@ package com.gsn.games.mygame {
     import flash.utils.describeType;
 
     // AUTOMATED METADATA. DO NOT UPDATE. This metadata is replaced by the ANT task during compile
-    [SWF(width="760", height="540", framerate="31", backgroundColor="#FFFFFF")]
+    [SWF(width = "760", height = "540", framerate = "31", backgroundColor = "#FFFFFF")]
 
     /**
      * Game implementation of CoreSprite as a root level SWF to handle loading progress bar and then game app.
@@ -17,9 +17,9 @@ package com.gsn.games.mygame {
     public class GameLoader extends CoreGameLoader {
 
         // AUTOMATED METADATA. DO NOT UPDATE. This metatdata is replaced by the ANT task during compile. Any changes will be replaced during compile
-        [progressPathDefinition(pathName="ProgressBar.swf")]
+        [progressPathDefinition(pathName = "ProgressBar.swf")]
         public var assignedProgressBarPath:String;
-        [appPathDefinition(pathName="GameApp.swf")]
+        [appPathDefinition(pathName = "GameApp.swf")]
         public var assignedAppPath:String;
 
         // END AUTOMATED METADATA
@@ -89,15 +89,19 @@ package com.gsn.games.mygame {
                 if (metaDataPath) {
                     arg = metaDataPath..arg.(@key == "pathName");
                     if (arg) {
-						gameAppPath = (arg.@value);
+                        gameAppPath = (arg.@value);
 
                     }
                 }
             }
             if (gameAppPath.indexOf("http") == -1) {
-				gameAppPath = mesmoResourceDir + gameAppPath;
+                gameAppPath = mesmoResourceDir + gameAppPath;
             }
 
+        }
+
+        override protected function handleGameStartupFail():void {
+            DebugUtils.log("GameLoader.handleGameStartupFail()", "MyGame", DebugUtils.VERBOSE);
         }
 
     }
