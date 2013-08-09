@@ -42,6 +42,8 @@
 	<property name="FLEX_HOME" value="${flexHome}" />
 	<taskdef resource="flexTasks.tasks" classpath="${flexHome}/ant/lib/flexTasks.jar"/>
 	
+	<property name="flashHome" value="/Applications/Adobe Flash CS6/Adobe Flash CS6.app/Contents/MacOS/Adobe Flash CS6" />
+	
 	
 	<!-- Compile all external fla and xfl files -->
 	<target name="compileAllExternal" description="Compile all FLA/XFL files into /assets">
@@ -63,7 +65,8 @@
 		<replace file="${tempCompilerJSFL}" token="@pubdir@" value="${assetsDir}/"/>
 
 		<!-- Execute JSFL -->
-		<exec executable="open" failonerror="true" dir=".">
+		<!--<exec executable="open" failonerror="true" dir=".">-->
+		<exec executable="${flashHome}" failonerror="true" dir=".">
 			<!-- Wait for task to complete -->
 			<arg value="-W"/>
 			<arg value="${tempCompilerJSFL}"/>

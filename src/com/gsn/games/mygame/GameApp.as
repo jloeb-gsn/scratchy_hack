@@ -4,7 +4,7 @@ package com.gsn.games.mygame {
     import com.gsn.games.shared.utils.DebugUtils;
 
     // AUTOMATED METADATA. DO NOT UPDATE. This metadata is replaced by the ANT task during compile
-    [SWF(width = "760", height = "540", framerate = "31", backgroundColor = "#FFFFFF")]
+    [SWF(width="760", height="680", frameRate="30", backgroundColor="#FFFFFF")]
 
     public class GameApp extends CoreGameApp {
         //
