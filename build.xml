@@ -248,6 +248,20 @@
         </delete>
     </target>
 
+    <!-- Clean out the bin-debug and bin-release folders -->
+    <target name="cleanReleaseBin" description="Clean bin-release">
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${buildDirRelease}"/>
+        </delete>
+    </target>
+
+    <!-- Clean out the bin-debug and bin-release folders -->
+    <target name="cleanDebugBin" description="Clean bin-debug">
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${buildDirDebug}"/>
+        </delete>
+    </target>
+
     <!-- Zip the files in bin-debug -->
     <target name="zipBinDebug" depends="buildDebug" description="Builds the bin-debug folder, then zips the required files">
         <mkdir dir="${distributeDir}"/>
