@@ -248,14 +248,14 @@
         </delete>
     </target>
 
-    <!-- Clean out the bin-debug and bin-release folders -->
+    <!-- Clean out the bin-release folder -->
     <target name="cleanReleaseBin" description="Clean bin-release">
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${buildDirRelease}"/>
         </delete>
     </target>
 
-    <!-- Clean out the bin-debug and bin-release folders -->
+    <!-- Clean out the bin-debug folder -->
     <target name="cleanDebugBin" description="Clean bin-debug">
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${buildDirDebug}"/>
