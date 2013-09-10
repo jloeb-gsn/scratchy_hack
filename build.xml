@@ -47,15 +47,47 @@
     <property name="assetBundleJSFLFile" value="BundleAssets_v1.5.0.jsfl"/>
     <property name="tempAssetBundleJSFLFile" value="temp_${assetBundleJSFLFile}"/>
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
-	<property name="bundleOutput" value="${assetsDir}/bundles/"/>
-	<property name="deleteBundleFLAs" value="true"/>
-	<property name="JSFLErrorFile" value="${bundleOutput}/errors.txt"/>
-	
-    
+    <property name="bundleOutput" value="${assetsDir}/bundles/"/>
+    <property name="deleteBundleFLAs" value="true"/>
+    <property name="JSFLErrorFile" value="${bundleOutput}/errors.txt"/>
 
+    <!-- Define the platform specific executable method for launching Flash -->
+    <!--<property name="ExecutableApp" value="${flashHome}"/>-->
+
+    <!-- Platform check -->
+    <condition property="isMac">
+        <os family="mac"/>
+    </condition>
+    <condition property="isWindows">
+        <os family="windows"/>
+    </condition>
+
+
+
+
+
+    <target name="test" depends="setExternalAppPath">
+        <echo>set path=${ExecutableApp}</echo>
+        <echo>${os.name}</echo>
+        <echo>${isMac}</echo>
+        <echo>${ExecutableApp}</echo>
+    </target>
+
+    <!-- Set the path to the external app by platform -->
+    <target name="setExternalAppPath" depends="setMacPath,setWinPath">
+        <echo>setting path ${ExecutableApp}</echo>
+    </target>
+    <target name="setMacPath" if="isMac">
+        <property name="ExecutableApp" value="open"/>
+        <echo>set mac ${isMac}</echo>
+    </target>
+    <target name="setWinPath" if="isWindows">
+        <property name="ExecutableApp" value="${flashHome}"/>
+        <echo>set win ${isWindows}</echo>
+    </target>
 
     <!-- Compile all external fla and xfl files -->
-    <target name="compileAllExternal" description="Compile all FLA/XFL files into /assets">
+    <target name="compileAllExternal" depends="setExternalAppPath" description="Compile all FLA/XFL files into /assets">
 
         <!-- Get all files of type .fla or .xfl -->
         <fileset dir="${assetsSrc}" id="extFiles">
@@ -69,13 +101,14 @@
         <!-- Call the jsfl to compile the FLAs -->
         <!-- Create temp -->
         <copy file="${compilerJSFL}" tofile="${tempCompilerJSFL}" overwrite="true"/>
+
         <!-- Pass in vars -->
         <replace file="${tempCompilerJSFL}" token="@fileList@" value="${extFilesString}"/>
         <replace file="${tempCompilerJSFL}" token="@pubdir@" value="${assetsDir}/"/>
 
         <!-- Execute JSFL -->
-        <!--<exec executable="open" failonerror="true" dir=".">-->
-        <exec executable="${flashHome}" failonerror="true" dir=".">
+        <exec executable="${ExecutableApp}" failonerror="true" dir=".">
+            <!-- <exec executable="${flashHome}" failonerror="true" dir=".">-->
             <!-- Wait for task to complete -->
             <arg value="-W"/>
             <arg value="${tempCompilerJSFL}"/>
@@ -87,7 +120,7 @@
     </target>
 
     <!-- Bundle assets -->
-    <target name="bundleAssets" description="Build the asset bundles into /assets/bundles">
+    <target name="bundleAssets" depends="setExternalAppPath" description="Build the asset bundles into /assets/bundles">
 
         <!-- CREATE TEMP DUPLICATE OF JSFL -->
         <copy file="${assetBundleJSFLFile}" tofile="${tempAssetBundleJSFLFile}" overwrite="true"/>
@@ -97,17 +130,20 @@
         <replace file="${tempAssetBundleJSFLFile}" token="@destpath@" value="file:///${bundleOutput}"/>
         <replace file="${tempAssetBundleJSFLFile}" token="@deletebundles@" value="${deleteBundleFLAs}"/>
 
+        <!-- DELETE ERROR FILE -->
+        <delete file="${JSFLErrorFile}"/>
+
         <!-- EXECUTE JSFL -->
-        <exec executable="open" failonerror="true" dir=".">
+        <exec executable="${ExecutableApp}" failonerror="true" dir=".">
             <arg value="${tempAssetBundleJSFLFile}"/>
         </exec>
-    	
-    	<!-- WAIT FOR COMPLETE -->
-    	<waitfor maxwait="30" maxwaitunit="minute" timeoutproperty="flashTimeout">
-			<available file="${JSFLErrorFile}" />
-		</waitfor>
-		<echo message="JSFL script finished" />
-		<fail if="flashTimeout" message="Flash did not finish within 30 minutes"/>
+
+        <!-- WAIT FOR COMPLETE -->
+        <waitfor maxwait="30" maxwaitunit="minute" timeoutproperty="flashTimeout">
+            <available file="${JSFLErrorFile}"/>
+        </waitfor>
+        <echo message="JSFL script finished"/>
+        <fail if="flashTimeout" message="Flash did not finish within 30 minutes"/>
 
         <!-- DELETE TEMP FILE -->
         <delete file="${tempAssetBundleJSFLFile}"/>
@@ -162,13 +198,12 @@
 
     <!-- generate the wrapper html for the loader -->
     <target name="wrapper">
-		<html-wrapper title="${appTitle}" file="${loaderName}.html" height="${appHeight}" width="${appWidth}" bgcolor="${bgColor}" application="app" swf="${loaderName}" output="${buildDir}" version-major="${version-major}" version-minor="${version-minor}" version-revision="${version-revision}"/>
+        <html-wrapper title="${appTitle}" file="${loaderName}.html" height="${appHeight}" width="${appWidth}" bgcolor="${bgColor}" application="app" swf="${loaderName}" output="${buildDir}"
+                      version-major="${version-major}" version-minor="${version-minor}" version-revision="${version-revision}"/>
 
 
         <!-- add user's flashvars -->
-		<replaceregexp file="${buildDir}/${loaderHtmlFile}"
-			match="var flashvars = \{\};"
-			replace='var flashvars = {${flashVars}};'/>
+        <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var flashvars = \{\};" replace='var flashvars = {${flashVars}};'/>
     </target>
 
     <!-- update the metatags in the loader swf -->
