@@ -44,7 +44,7 @@
 
     <property name="flashHome" value="/Applications/Adobe Flash CS6/Adobe Flash CS6.app/Contents/MacOS/Adobe Flash CS6"/>
 
-    <property name="assetBundleJSFLFile" value="BundleAssets_v1.5.0.jsfl"/>
+    <property name="assetBundleJSFLFile" value="BundleAssets_v1.5.1.jsfl"/>
     <property name="tempAssetBundleJSFLFile" value="temp_${assetBundleJSFLFile}"/>
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
     <property name="bundleOutput" value="${assetsDir}/bundles/"/>
