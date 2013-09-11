@@ -37,6 +37,8 @@
     <property name="compilerJSFL" value="${basedir}/compiler.jsfl"/>
     <property name="tempCompilerJSFL" value="${basedir}/temp_compiler.jsfl"/>
 
+    <property name="themeDir" value="${basedir}/themes/default"/>
+
     <property name="fbHome" value="/Applications/Adobe Flash Builder 4.6"/>
     <property name="flexHome" value="${fbHome}/sdks/4.6.0"/>
     <property name="FLEX_HOME" value="${flexHome}"/>
@@ -315,6 +317,33 @@
             <param name="buildDir" value="${buildDirRelease}"/>
             <param name="isDebug" value="false"/>
         </antcall>
+    </target>
+
+    <!-- Copy files from theme directory -->
+    <target name="copyThemeDir" description="Copy files from theme directory">
+        <echo>Copying theme from: ${themeDir}</echo>
+        <copy todir="${assetsDir}">
+            <fileset dir="${themeDir}/assets"/>
+        </copy>
+        <copy todir="${assetsSrc}">
+            <fileset dir="${themeDir}/assets-src"/>
+        </copy>
+        <copy todir="${bundlesSource}">
+            <fileset dir="${themeDir}/bundles-src"/>
+        </copy>
+    </target>
+
+    <!-- Clear files from assetsSrc assetsDir and bundlesSource -->
+    <target name="clearRootAssetsAndBundles" description="Clear files from assetsSrc assetsDir and bundlesSource">
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${assetsDir}"/>
+        </delete>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${assetsSrc}"/>
+        </delete>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${bundlesSource}"/>
+        </delete>
     </target>
 
 </project>
