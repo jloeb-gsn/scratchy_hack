@@ -49,12 +49,9 @@
     <property name="assetBundleJSFLFile" value="BundleAssets_v1.5.1.jsfl"/>
     <property name="tempAssetBundleJSFLFile" value="temp_${assetBundleJSFLFile}"/>
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
-    <property name="bundleOutput" value="${assetsDir}/bundles/"/>
+    <property name="bundlesOutput" value="${assetsDir}/bundles/"/>
     <property name="deleteBundleFLAs" value="true"/>
-    <property name="JSFLErrorFile" value="${bundleOutput}/errors.txt"/>
-
-    <!-- Define the platform specific executable method for launching Flash -->
-    <!--<property name="ExecutableApp" value="${flashHome}"/>-->
+    <property name="JSFLErrorFile" value="${bundlesOutput}/errors.txt"/>
 
     <!-- Platform check -->
     <condition property="isMac">
@@ -64,15 +61,15 @@
         <os family="windows"/>
     </condition>
 
-
-
-
-
     <target name="test" depends="setExternalAppPath">
         <echo>set path=${ExecutableApp}</echo>
         <echo>${os.name}</echo>
         <echo>${isMac}</echo>
         <echo>${ExecutableApp}</echo>
+        <pathconvert targetos="unix" property="newpath">
+            <path location="${bundlesOutput}"/>
+        </pathconvert>
+        <echo>${newpath}</echo>
     </target>
 
     <!-- Set the path to the external app by platform -->
@@ -81,10 +78,18 @@
     </target>
     <target name="setMacPath" if="isMac">
         <property name="ExecutableApp" value="open"/>
+        <property name="platformBundlesSource" value="${bundlesSource}"/>
+        <property name="platformBundlesOutput" value="${bundlesOutput}"/>
         <echo>set mac ${isMac}</echo>
     </target>
     <target name="setWinPath" if="isWindows">
         <property name="ExecutableApp" value="${flashHome}"/>
+        <pathconvert targetos="unix" property="platformBundlesSource">
+            <path location="${bundlesSource}"/>
+        </pathconvert>
+        <pathconvert targetos="unix" property="platformBundlesOutput">
+            <path location="${bundlesOutput}"/>
+        </pathconvert>
         <echo>set win ${isWindows}</echo>
     </target>
 
@@ -100,7 +105,6 @@
         <!-- Convert to a string for JSFL -->
         <pathconvert pathsep="," property="extFilesString" refid="extFiles"/>
 
-        <!-- Call the jsfl to compile the FLAs -->
         <!-- Create temp -->
         <copy file="${compilerJSFL}" tofile="${tempCompilerJSFL}" overwrite="true"/>
 
@@ -110,7 +114,6 @@
 
         <!-- Execute JSFL -->
         <exec executable="${ExecutableApp}" failonerror="true" dir=".">
-            <!-- <exec executable="${flashHome}" failonerror="true" dir=".">-->
             <!-- Wait for task to complete -->
             <arg value="-W"/>
             <arg value="${tempCompilerJSFL}"/>
@@ -128,8 +131,8 @@
         <copy file="${assetBundleJSFLFile}" tofile="${tempAssetBundleJSFLFile}" overwrite="true"/>
 
         <!-- REPLACE VARS IN JSFL -->
-        <replace file="${tempAssetBundleJSFLFile}" token="@srcpath@" value="file:///${bundlesSource}"/>
-        <replace file="${tempAssetBundleJSFLFile}" token="@destpath@" value="file:///${bundleOutput}"/>
+        <replace file="${tempAssetBundleJSFLFile}" token="@srcpath@" value="file:///${platformBundlesSource}"/>
+        <replace file="${tempAssetBundleJSFLFile}" token="@destpath@" value="file:///${platformBundlesOutput}"/>
         <replace file="${tempAssetBundleJSFLFile}" token="@deletebundles@" value="${deleteBundleFLAs}"/>
 
         <!-- DELETE ERROR FILE -->
@@ -156,6 +159,7 @@
     <target name="build">
         <fail message="Don't use this target directly! Use buildDebug or buildRelease" unless="buildDir"/>
         <echo>${loaderClass}</echo>
+
         <!-- clean build dir -->
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${buildDir}"/>
