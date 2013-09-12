@@ -51,7 +51,6 @@
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
     <property name="bundlesOutput" value="${assetsDir}/bundles/"/>
     <property name="deleteBundleFLAs" value="true"/>
-    <property name="JSFLErrorFile" value="${bundlesOutput}/errors.txt"/>
 
     <!-- Platform check -->
     <condition property="isMac">
@@ -61,17 +60,6 @@
         <os family="windows"/>
     </condition>
 
-    <target name="test" depends="setExternalAppPath">
-        <echo>set path=${ExecutableApp}</echo>
-        <echo>${os.name}</echo>
-        <echo>${isMac}</echo>
-        <echo>${ExecutableApp}</echo>
-        <pathconvert targetos="unix" property="newpath">
-            <path location="${bundlesOutput}"/>
-        </pathconvert>
-        <echo>${newpath}</echo>
-    </target>
-
     <!-- Set the path to the external app by platform -->
     <target name="setExternalAppPath" depends="setMacPath,setWinPath">
         <echo>setting path ${ExecutableApp}</echo>
@@ -80,16 +68,46 @@
         <property name="ExecutableApp" value="open"/>
         <property name="platformBundlesSource" value="${bundlesSource}"/>
         <property name="platformBundlesOutput" value="${bundlesOutput}"/>
+        <property name="JSFLErrorFile" value="${platformBundlesOutput}errors.txt"/>
         <echo>set mac ${isMac}</echo>
     </target>
     <target name="setWinPath" if="isWindows">
         <property name="ExecutableApp" value="${flashHome}"/>
+
+        <!-- Replace the :\ with a | -->
+        <loadresource property="bundlesSource">
+            <propertyresource name="tempBundlesSource"/>
+            <filterchain>
+                <tokenfilter>
+                    <filetokenizer/>
+                    <replacestring from=":\" to="|"/>
+                </tokenfilter>
+            </filterchain>
+        </loadresource>
+
+        <!-- Change slashes to be forward -->
         <pathconvert targetos="unix" property="platformBundlesSource">
-            <path location="${bundlesSource}"/>
+            <path location="${tempBundlesSource}"/>
         </pathconvert>
+
+        <!-- Replace the :\ with a | -->
+        <loadresource property="bundlesOutput">
+            <propertyresource name="tempBundlesOutput"/>
+            <filterchain>
+                <tokenfilter>
+                    <filetokenizer/>
+                    <replacestring from=":\" to="|"/>
+                </tokenfilter>
+            </filterchain>
+        </loadresource>
+
+        <!-- Change slashes to be forward -->
         <pathconvert targetos="unix" property="platformBundlesOutput">
-            <path location="${bundlesOutput}"/>
+            <path location="${tempBundlesOutput}/"/>
         </pathconvert>
+
+        <property name="JSFLErrorFile" value="${platformBundlesOutput}errors.txt"/>
+
         <echo>set win ${isWindows}</echo>
     </target>
 
