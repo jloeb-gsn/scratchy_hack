@@ -75,36 +75,40 @@
         <property name="ExecutableApp" value="${flashHome}"/>
 
         <!-- Replace the :\ with a | -->
-        <loadresource property="bundlesSource">
-            <propertyresource name="tempBundlesSource"/>
+        <loadresource property="platformBundlesSource">
+            <propertyresource name="bundlesSource"/>
             <filterchain>
                 <tokenfilter>
                     <filetokenizer/>
-                    <replacestring from=":\" to="|"/>
+                    <replacestring from=":\" to="|/"/>
+                	<replacestring from="\" to="/"/>
                 </tokenfilter>
             </filterchain>
         </loadresource>
+    	<echo>${tempBundlesSource}</echo>
 
         <!-- Change slashes to be forward -->
-        <pathconvert targetos="unix" property="platformBundlesSource">
+<!--        <pathconvert targetos="unix" property="platformBundlesSource">
             <path location="${tempBundlesSource}"/>
-        </pathconvert>
+        </pathconvert> -->
+    	<echo>${platformBundlesSource}</echo>
 
         <!-- Replace the :\ with a | -->
-        <loadresource property="bundlesOutput">
-            <propertyresource name="tempBundlesOutput"/>
+        <loadresource property="platformBundlesOutput">
+            <propertyresource name="bundlesOutput"/>
             <filterchain>
                 <tokenfilter>
                     <filetokenizer/>
-                    <replacestring from=":\" to="|"/>
+                    <replacestring from=":\" to="|/"/>
+                	<replacestring from="\" to="/"/>
                 </tokenfilter>
             </filterchain>
         </loadresource>
 
         <!-- Change slashes to be forward -->
-        <pathconvert targetos="unix" property="platformBundlesOutput">
+        <!-- <pathconvert targetos="unix" property="platformBundlesOutput">
             <path location="${tempBundlesOutput}/"/>
-        </pathconvert>
+        </pathconvert> -->
 
         <property name="JSFLErrorFile" value="${platformBundlesOutput}errors.txt"/>
 
