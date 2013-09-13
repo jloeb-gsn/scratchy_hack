@@ -349,6 +349,16 @@
 
     <!-- Clear files from assetsSrc assetsDir and bundlesSource -->
     <target name="clearRootAssetsAndBundles" description="Clear files from assetsSrc assetsDir and bundlesSource">
+        <echo>Copying theme from: ${themeDir}</echo>
+        <copy todir="${themeDir}/assets">
+            <fileset dir="${assetsDir}"/>
+        </copy>
+        <copy todir="${themeDir}/assets-src">
+            <fileset dir="${assetsSrc}"/>
+        </copy>
+        <copy todir="${themeDir}/bundles-src">
+            <fileset dir="${bundlesSource}"/>
+        </copy>
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${assetsDir}"/>
         </delete>
