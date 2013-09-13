@@ -74,7 +74,7 @@
     <target name="setWinPath" if="isWindows">
         <property name="ExecutableApp" value="${flashHome}"/>
 
-        <!-- Replace the :\ with a | -->
+        <!-- Replace the :\ with a | and \ to / -->
         <loadresource property="platformBundlesSource">
             <propertyresource name="bundlesSource"/>
             <filterchain>
@@ -85,15 +85,8 @@
                 </tokenfilter>
             </filterchain>
         </loadresource>
-    	<echo>${tempBundlesSource}</echo>
 
-        <!-- Change slashes to be forward -->
-<!--        <pathconvert targetos="unix" property="platformBundlesSource">
-            <path location="${tempBundlesSource}"/>
-        </pathconvert> -->
-    	<echo>${platformBundlesSource}</echo>
-
-        <!-- Replace the :\ with a | -->
+        <!-- Replace the :\ with a | and \ to / -->
         <loadresource property="platformBundlesOutput">
             <propertyresource name="bundlesOutput"/>
             <filterchain>
@@ -104,11 +97,6 @@
                 </tokenfilter>
             </filterchain>
         </loadresource>
-
-        <!-- Change slashes to be forward -->
-        <!-- <pathconvert targetos="unix" property="platformBundlesOutput">
-            <path location="${tempBundlesOutput}/"/>
-        </pathconvert> -->
 
         <property name="JSFLErrorFile" value="${platformBundlesOutput}errors.txt"/>
 
