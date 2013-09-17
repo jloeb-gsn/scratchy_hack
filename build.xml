@@ -181,7 +181,7 @@
         </copy>
         <!-- generate loader class -->
         <antcall target="updateLoaderMetatag"/>
-        <mxmlc file="${loaderClass}" output="${buildDir}/build_${loaderSwfFile}" debug="${isDebug}" incremental="false">
+        <mxmlc file="${loaderClass}" output="${buildDir}/build_${loaderSwfFile}" debug="${isDebug}" incremental="false" static-link-runtime-shared-libraries="true">
             <source-path path-element="src"/>
             <compiler.library-path dir="${basedir}/libs/" append="true">
                 <include name="*"/>
@@ -196,7 +196,7 @@
         <delete file="${buildDir}/build_${loaderSwfFile}"/>
 
         <!-- generate main class -->
-        <mxmlc file="${appClass}" output="${buildDir}/build_${appSwfFile}" debug="${isDebug}" incremental="false">
+        <mxmlc file="${appClass}" output="${buildDir}/build_${appSwfFile}" debug="${isDebug}" incremental="false" static-link-runtime-shared-libraries="true">
             <source-path path-element="src"/>
             <compiler.library-path dir="${basedir}/libs/" append="true">
                 <include name="*"/>
