@@ -12,7 +12,7 @@
     <property name="appName" value="my_app"/>
     <property name="appClass" value="${package}/${appName}.as"/>
     <property name="appSwfFile" value="${appName}.swf"/>
-    <property name="appTitle" value="Project template"/>
+    <property name="appTitle" value="${appName}"/>
     <!--<property name="appHtmlFile" value="${appName}.html" />-->
     <property name="loaderName" value="GameLoader"/>
     <property name="loaderClass" value="${package}/${loaderName}.as"/>
@@ -83,7 +83,7 @@
                 <tokenfilter>
                     <filetokenizer/>
                     <replacestring from=":\" to="|/"/>
-                	<replacestring from="\" to="/"/>
+                    <replacestring from="\" to="/"/>
                 </tokenfilter>
             </filterchain>
         </loadresource>
@@ -95,7 +95,7 @@
                 <tokenfilter>
                     <filetokenizer/>
                     <replacestring from=":\" to="|/"/>
-                	<replacestring from="\" to="/"/>
+                    <replacestring from="\" to="/"/>
                 </tokenfilter>
             </filterchain>
         </loadresource>
