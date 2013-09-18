@@ -21,7 +21,7 @@
     <property name="progressBarName" value="ProgressBar"/>
     <property name="progressBarSwfFile" value="${progressBarName}.swf"/>
     <property name="appWidth" value="760"/>
-    <property name="appHeight" value="680"/>
+    <property name="appHeight" value="570"/>
     <property name="frameRate" value="30"/>
     <property name="bgColor" value="FFFFFF"/>
     <property name="flashVars" value=""/>
