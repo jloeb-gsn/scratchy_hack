@@ -3,6 +3,8 @@
 
     <!-- include project properties (overrides values below) -->
     <property file="build.properties"/>
+    <property file="build.user.properties"/>
+    <property file="build.game.properties"/>
 
 
     <!-- Default values -->
