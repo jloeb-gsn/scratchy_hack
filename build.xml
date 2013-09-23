@@ -337,30 +337,24 @@
 
     <!-- Copy files from theme directory -->
     <target name="copyThemeDir" description="Copy files from theme directory">
-        <echo>Copying theme from: ${themeDir}</echo>
-        <copy todir="${assetsDir}">
+        <echo>Copying theme files to base directories from: ${themeDir}</echo>
+        <copy todir="${assetsDir}" failonerror="false">
             <fileset dir="${themeDir}/assets"/>
         </copy>
-        <copy todir="${assetsSrc}">
+        <copy todir="${assetsSrc}" failonerror="false">
             <fileset dir="${themeDir}/assets-src"/>
         </copy>
-        <copy todir="${bundlesSource}">
+        <copy todir="${bundlesSource}" failonerror="false">
             <fileset dir="${themeDir}/bundles-src"/>
+        </copy>
+        <echo>Copying default files to base directories. Does not overwrite theme files.</echo>
+        <copy todir="${basedir}" overwrite="false">
+            <fileset dir="${basedir}/themes/default"/>
         </copy>
     </target>
 
     <!-- Clear files from assetsSrc assetsDir and bundlesSource -->
     <target name="clearRootAssetsAndBundles" description="Clear files from assetsSrc assetsDir and bundlesSource">
-        <echo>Copying theme from: ${themeDir}</echo>
-        <copy todir="${themeDir}/assets">
-            <fileset dir="${assetsDir}"/>
-        </copy>
-        <copy todir="${themeDir}/assets-src">
-            <fileset dir="${assetsSrc}"/>
-        </copy>
-        <copy todir="${themeDir}/bundles-src">
-            <fileset dir="${bundlesSource}"/>
-        </copy>
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${assetsDir}"/>
         </delete>
