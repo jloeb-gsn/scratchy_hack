@@ -28,6 +28,7 @@
     <property name="version-major" value="11"/>
     <property name="version-minor" value="1"/>
     <property name="version-revision" value="0"/>
+	<property name="wmode" value="direct"/>
 
     <!-- other values -->
     <property name="buildDirDebug" value="${basedir}/bin-debug"/>
@@ -216,12 +217,16 @@
 
     <!-- generate the wrapper html for the loader -->
     <target name="wrapper">
+
         <html-wrapper title="${appTitle}" file="${loaderName}.html" height="${appHeight}" width="${appWidth}" bgcolor="${bgColor}" application="app" swf="${loaderName}" output="${buildDir}"
                       version-major="${version-major}" version-minor="${version-minor}" version-revision="${version-revision}"/>
 
-
         <!-- add user's flashvars -->
         <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var flashvars = \{\};" replace='var flashvars = {${flashVars}};'/>
+
+        <!-- add wmode -->
+        <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var params = \{\};" replace='var params = {wmode:${wmode}};'/>
+
     </target>
 
     <!-- update the metatags in the loader swf -->
