@@ -191,7 +191,7 @@
             </compiler.library-path>
             <define name="CONFIG::DEBUG" value="${isDebug}"/>
             <!-- ## needed? -->
-            <define name="CONFIG::ANALYTICS" value="true"/>
+            <!-- <define name="CONFIG::ANALYTICS" value="true"/> -->
         </mxmlc>
         <!-- we use the build_ name to avoid Flash Builder cache when dependency checking-->
         <copy file="${buildDir}/build_${loaderSwfFile}" tofile="${buildDir}/${loaderSwfFile}" overwrite="true"/>
@@ -206,7 +206,7 @@
             </compiler.library-path>
             <define name="CONFIG::DEBUG" value="${isDebug}"/>
             <!-- ## needed? -->
-            <define name="CONFIG::ANALYTICS" value="true"/>
+            <!-- <define name="CONFIG::ANALYTICS" value="true"/> -->
         </mxmlc>
         <!-- we use the build_ name to avoid Flash Builder cache when dependency checking-->
         <copy file="${buildDir}/build_${appSwfFile}" tofile="${buildDir}/${appSwfFile}" overwrite="true"/>
