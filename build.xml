@@ -28,7 +28,7 @@
     <property name="version-major" value="11"/>
     <property name="version-minor" value="1"/>
     <property name="version-revision" value="0"/>
-	<property name="wmode" value="direct"/>
+	<property name="wmode" value="window"/>
 
     <!-- other values -->
     <property name="buildDirDebug" value="${basedir}/bin-debug"/>
@@ -225,7 +225,7 @@
         <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var flashvars = \{\};" replace='var flashvars = {${flashVars}};'/>
 
         <!-- add wmode -->
-        <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var params = \{\};" replace='var params = {wmode:${wmode}};'/>
+        <replaceregexp file="${buildDir}/${loaderHtmlFile}" match="var params = \{\};" replace='var params = {wmode:\"${wmode}\"};'/>
 
     </target>
 
