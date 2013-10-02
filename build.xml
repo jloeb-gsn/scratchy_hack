@@ -49,7 +49,8 @@
 
     <property name="flashHome" value="/Applications/Adobe Flash CS6/Adobe Flash CS6.app/Contents/MacOS/Adobe Flash CS6"/>
 
-    <property name="assetBundleJSFLFile" value="BundleAssets_v1.5.1.jsfl"/>
+    <property name="assetBundleJSFLVersion" value="1.5.3"/>
+    <property name="assetBundleJSFLFile" value="BundleAssets_v${assetBundleJSFLVersion}.jsfl"/>
     <property name="tempAssetBundleJSFLFile" value="temp_${assetBundleJSFLFile}"/>
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
     <property name="bundlesOutput" value="${assetsDir}/bundles/"/>
@@ -147,6 +148,9 @@
         <replace file="${tempAssetBundleJSFLFile}" token="@srcpath@" value="file:///${platformBundlesSource}"/>
         <replace file="${tempAssetBundleJSFLFile}" token="@destpath@" value="file:///${platformBundlesOutput}"/>
         <replace file="${tempAssetBundleJSFLFile}" token="@deletebundles@" value="${deleteBundleFLAs}"/>
+
+        <!-- SET JSFL VERSION -->
+        <replace file="${tempAssetBundleJSFLFile}" token="@jsflversion@" value="${assetBundleJSFLVersion}"/>
 
         <!-- DELETE ERROR FILE -->
         <delete file="${JSFLErrorFile}"/>
