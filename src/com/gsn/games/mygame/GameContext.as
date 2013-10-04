@@ -1,6 +1,6 @@
 package com.gsn.games.mygame {
 
-    import com.gsn.games.core.CoreContext;
+    import com.gsn.games.core.BaseContext;
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.mygame.controllers.commands.AddGameViewCommand;
     import com.gsn.games.mygame.controllers.commands.GetModelUpdateCommand;
@@ -11,7 +11,7 @@ package com.gsn.games.mygame {
     import com.gsn.games.mygame.views.MyGameViewMediator;
     import com.gsn.games.shared.utils.DebugUtils;
     import com.gsn.games.shared.utils.LayerManager;
-    
+
     import flash.display.DisplayObjectContainer;
 
     /**
@@ -20,7 +20,7 @@ package com.gsn.games.mygame {
      * Override or extend activateLoaders() if other LoaderMax loader types are needed.
      * Override or extend bootstrapOptionalModels(), bootstrapOptionalServices(), bootstrapOptionalMediators(), and bootstrapOptionalCommands() if other commands are required.
      * */
-    public class GameContext extends CoreContext {
+    public class GameContext extends BaseContext {
 
         public function GameContext(contextView:DisplayObjectContainer = null, autoStartup:Boolean = true) {
             super(contextView, autoStartup);
@@ -32,27 +32,27 @@ package com.gsn.games.mygame {
          * */
         override public function startup():void {
 
-			//!! map your custom commands, models, services, mediators here or in the bootstrap functions below...
+            //!! map your custom commands, models, services, mediators here or in the bootstrap functions below...
 
-			
-			
-			// Trace startup success. Use the different levels of debugging to help filter trace amount
+
+
+            // Trace startup success. Use the different levels of debugging to help filter trace amount
             DebugUtils.log("GameContext.startup()", "GF2", DebugUtils.VERBOSE);
 
-			// EXAMPLES:
-			
+            // EXAMPLES:
+
             // Mapping the main view
             mediatorMap.mapView(MyGameView, MyGameViewMediator);
 
-			// When the framework is ready, the command is called which draws the first view
-			commandMap.mapEvent(StartupEvent.GAMEFORGE2_READY, AddGameViewCommand, StartupEvent);
-			
+            // When the framework is ready, the command is called which draws the first view
+            commandMap.mapEvent(StartupEvent.GAMEFORGE2_READY, AddGameViewCommand, StartupEvent);
+
             // Example of a singleton Model
             injector.mapSingleton(GameModel);
-			
-			injector.mapValue(LayerManager, new LayerManager(contextView));
-            
-			// Example of listening for updates to our model
+
+            injector.mapValue(LayerManager, new LayerManager(contextView));
+
+            // Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);
 
 
