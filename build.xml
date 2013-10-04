@@ -28,7 +28,7 @@
     <property name="version-major" value="11"/>
     <property name="version-minor" value="1"/>
     <property name="version-revision" value="0"/>
-	<property name="wmode" value="window"/>
+    <property name="wmode" value="window"/>
 
     <!-- other values -->
     <property name="buildDirDebug" value="${basedir}/bin-debug"/>
@@ -55,6 +55,7 @@
     <property name="bundlesSource" value="${basedir}/bundles-src/"/>
     <property name="bundlesOutput" value="${assetsDir}/bundles/"/>
     <property name="deleteBundleFLAs" value="true"/>
+    <property name="themeFileName" value="themes.txt"/>
 
     <!-- Platform check -->
     <condition property="isMac">
@@ -266,13 +267,8 @@
     </target>
 
     <!-- Clean out the bin-debug and bin-release folders -->
-    <target name="cleanAll" description="Clean bin-debug and bin-release">
-        <delete quiet="true" includeemptydirs="true">
-            <fileset dir="${buildDirDebug}"/>
-        </delete>
-        <delete quiet="true" includeemptydirs="true">
-            <fileset dir="${buildDirRelease}"/>
-        </delete>
+    <target name="cleanAll" description="Clean bin-debug and bin-release" depends="cleanDebugBin,cleanReleaseBin">
+
     </target>
 
     <!-- Clean out the bin-release folder -->
@@ -360,19 +356,44 @@
         <copy todir="${basedir}" overwrite="false">
             <fileset dir="${basedir}/themes/default"/>
         </copy>
+
+        <!-- Create theme files to protect against deletion of non-theme source folders -->
+        <echo file="${assetsDir}/${themeFileName}" append="false">${themeDir}</echo>
+        <echo file="${assetsSrc}/${themeFileName}" append="false">${themeDir}</echo>
+        <echo file="${bundlesSource}/${themeFileName}" append="false">${themeDir}</echo>
+
     </target>
 
     <!-- Clear files from assetsSrc assetsDir and bundlesSource -->
-    <target name="clearRootAssetsAndBundles" description="Clear files from assetsSrc assetsDir and bundlesSource">
+    <target name="clearRootAssetsAndBundles" description="Clear files from assetsSrc, assetsDir, and bundlesSource" depends="clearAssetsDir,clearAssetsSrcDir,clearBundlesSrcDir">
+    </target>
+
+    <!-- Clear assets folder -->
+    <target name="clearAssetsDir" depends="checkThemeDeletion" if="${assetsDirIsTheme}">
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${assetsDir}"/>
         </delete>
+    </target>
+
+    <!-- Clear assets-src folder -->
+    <target name="clearAssetsSrcDir" depends="checkThemeDeletion" if="${assetsSrcIsTheme}">
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${assetsSrc}"/>
         </delete>
+    </target>
+
+    <!-- Clear bundles-src folder -->
+    <target name="clearBundlesSrcDir" depends="checkThemeDeletion" if="${bundleSrcIsTheme}">
         <delete quiet="true" includeemptydirs="true">
             <fileset dir="${bundlesSource}"/>
         </delete>
+    </target>
+
+    <!-- Check for existance of theme.txt to avoid accidental deletion of folder contents-->
+    <target name="checkThemeDeletion">
+        <available file="${assetsDir}/${themeFileName}" property="assetsDirIsTheme"/>
+        <available file="${assetsSrc}/${themeFileName}" property="assetsSrcIsTheme"/>
+        <available file="${bundlesSource}/${themeFileName}" property="bundleSrcIsTheme"/>
     </target>
 
 </project>
