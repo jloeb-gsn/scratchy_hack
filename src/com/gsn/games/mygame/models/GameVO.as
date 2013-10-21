@@ -5,13 +5,13 @@ package com.gsn.games.mygame.models
     * */
     public class GameVO {
         // Some properties here
-        public var youDidIt:String;
+        public var message:String;
         
         public function clone() : GameVO {
 
             var vo:GameVO = new GameVO();
             // clone attributes
-            vo.youDidIt = youDidIt;
+            vo.message = message;
             
             return vo;
         }

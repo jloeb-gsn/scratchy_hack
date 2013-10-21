@@ -1,11 +1,13 @@
 package com.gsn.games.mygame.views {
 
     import com.gsn.games.core.controllers.events.StartupEvent;
+    import com.gsn.games.core.models.gameconfigmanager.IGameConfigManager;
     import com.gsn.games.core.models.languagemanager.ILanguageManager;
     import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.mygame.controllers.events.GameEvent;
     import com.gsn.games.mygame.services.GameAnalyticsHelper;
     import com.gsn.games.shared.utils.DebugUtils;
+    import com.gsn.games.shared.utils.JSONUtils;
 
     import org.robotlegs.mvcs.Mediator;
 
@@ -23,6 +25,8 @@ package com.gsn.games.mygame.views {
         public var languageManager:ILanguageManager;
         [Inject]
         public var gameAnalytics:GameAnalyticsHelper;
+        [Inject]
+        public var gameConfigManager:IGameConfigManager;
 
         // PROPERTIES
 
@@ -67,6 +71,10 @@ package com.gsn.games.mygame.views {
 
             // Call the super.onRemove() to complete removal of mediator
             super.onRemove();
+
+            // Clean up the view
+            view.dispose();
+
         }
 
 
@@ -82,12 +90,12 @@ package com.gsn.games.mygame.views {
             gameAnalytics.trackPopupCount();
         }
 
-		/**
-		 * Event handler for tracking events from the view
-		 * */
+        /**
+         * Event handler for tracking events from the view
+         * */
         protected function onTrackClick(event:GameAnalyticsEvent):void {
-			// The GameAnalyticsHelper shows an example of switching tracking events based on the event.analyticsType
-			
+            // The GameAnalyticsHelper shows an example of switching tracking events based on the event.analyticsType
+
             gameAnalytics.trackCustomEvent(event.analyticsType);
         }
 

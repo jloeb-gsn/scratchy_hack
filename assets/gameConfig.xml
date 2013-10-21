@@ -6,26 +6,29 @@
         <minBadgeId>0</minBadgeId>
         <maxBadgeId>1000</maxBadgeId>
     </ConfigData>
-    
-    <!-- Sound files -->
-    <!--
-    <LoaderMax name="music" prependURLs="" load="false" postLoad="false">
-        <MP3Loader url="sounds/CasinoMusic1.mp3" name="myMusic" load="false" autoPlay="false" type="MUSIC"/>
-    </LoaderMax>
-    <LoaderMax name="sounds" prependURLs="" load="false" postLoad="false">
-        <MP3Loader url="sounds/effects/aww.mp3" name="mySound" load="false" autoPlay="false" type="SFX"/>
-    </LoaderMax>
-    -->
 
-    <!-- Assets bundles -->
-    <SWFLoader url="MyGameAssets.swf" name="BaseBundle" load="true" postLoad="false" eventType="GameBundleLoaded"/>
-    <library bundle="BaseBundle">
-        <element id="PANEL_MyPanel" classname="PANEL_MyPanel" type="PANEL"/>
-    </library>
-    
-    <SWFLoader url="MySoundAssets.swf" name="SoundBundle" load="false" postLoad="true" eventType="SoundBundleLoaded"/>
-    <library bundle="SoundBundle">
-        <element id="click_02_sound" classname="click_02_sound" type="SOUND"/>
-    </library>
-    
+    <!-- PANEL LAYOUTS -->
+    <panelLayout name="main_screen_1" panelname="PANEL_Main">
+        <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
+        <element placeholdername="PROP_Change" assetname="BTN_EditAction" instancename="button_change"/>
+        <element placeholdername="PROP_Reset" assetname="BTN_EditAction" instancename="button_reset"/>
+        <element placeholdername="PROP_Restart" assetname="BTN_EditAction" instancename="button_restart"/>
+        <element placeholdername="PROP_Quit" assetname="BTN_EditAction" instancename="button_quit"/>
+        <element placeholdername="PROP_Close" assetname="BTN_Close" instancename="button_close"/>
+        <element placeholdername="PROP_Box1" assetname="GFX_RedBox" instancename="GFX_RedBox"/>
+        <element placeholdername="PROP_Box2" assetname="GFX_BlueBox" instancename="GFX_BlueBox"/>
+        <element placeholdername="PROP_Box3" assetname="GFX_GreenBox" instancename="GFX_GreenBox"/>
+    </panelLayout>
+    <panelLayout name="main_screen_2" panelname="PANEL_Main">
+        <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
+        <element placeholdername="PROP_Change" assetname="BTN_Close" instancename="button_change"/>
+        <element placeholdername="PROP_Reset" assetname="BTN_Close" instancename="button_reset"/>
+        <element placeholdername="PROP_Restart" assetname="BTN_Close" instancename="button_restart"/>
+        <element placeholdername="PROP_Quit" assetname="BTN_Close" instancename="button_quit"/>
+        <element placeholdername="PROP_Close" assetname="BTN_Close" instancename="button_close"/>
+        <element placeholdername="PROP_Box1" assetname="GFX_GreenBox" instancename="GFX_GreenBox"/>
+        <element placeholdername="PROP_Box2" assetname="GFX_RedBox" instancename="GFX_RedBox"/>
+        <element placeholdername="PROP_Box3" assetname="GFX_BlueBox" instancename="GFX_BlueBox"/>
+
+    </panelLayout>
 </data>
