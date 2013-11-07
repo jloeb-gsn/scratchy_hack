@@ -24,6 +24,7 @@ package com.gsn.games.scratchy.controllers.commands {
          * On execute of command, the first game view is added
          * */
         override public function execute():void {
+			trace("AddGameViewCommand execute()");
             var myGameView:MyGameView = new MyGameView();
             layerManager.addChild(myGameView, LayerManager.BACKGROUND_LAYER);
         }
