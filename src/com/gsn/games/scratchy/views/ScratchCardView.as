@@ -1,4 +1,5 @@
 package com.gsn.games.scratchy.views {
+	import com.greensock.TweenLite;
 	import com.greensock.TweenMax;
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
 	import com.gsn.games.shared.assetsmanagement.AssetManager;
@@ -79,12 +80,17 @@ package com.gsn.games.scratchy.views {
 			tokensWon_tf.text = String(total);
 			trace("### tokens displayed so far: "+total);
 			var ticket:MyActionButton = (tickets[lastScratched] as MyActionButton);
-			TweenMax.delayedCall(2, showNewTicket);
+			TweenMax.delayedCall(1.2, showNewTicket);
 		}
 		
 		protected function showNewTicket():void {
 			trace("### show new ticket for "+lastScratched);
+			TweenLite.to((tickets[lastScratched] as MyActionButton).controlledMc, .3, {alpha:0, onComplete:easeInTicket});
+		}
+		
+		protected function easeInTicket():void {
 			//todo: remove all "scratched effects"
+			TweenLite.to((tickets[lastScratched] as MyActionButton).controlledMc, .3, {alpha:1});
 			(tickets[lastScratched] as MyActionButton).enabled = true;
 			lastScratched = "";
 		}
