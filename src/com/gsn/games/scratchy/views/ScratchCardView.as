@@ -1,4 +1,5 @@
 package com.gsn.games.scratchy.views {
+	import com.greensock.TweenMax;
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
 	import com.gsn.games.shared.assetsmanagement.AssetManager;
 	import com.gsn.games.shared.assetsmanagement.AssetVO;
@@ -7,6 +8,7 @@ package com.gsn.games.scratchy.views {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.utils.Dictionary;
 	
@@ -19,6 +21,8 @@ package com.gsn.games.scratchy.views {
 		protected var ticketsLeft_tf:TextField;
 		
 		protected var ticketAsset:MovieClip;
+		
+		protected var lastScratched:String = "";
 		
 		public function ScratchCardView() {
 			super();
@@ -53,7 +57,6 @@ package com.gsn.games.scratchy.views {
 						tickets[instanceName] = new MyActionButton(vo.asset as MovieClip);
 						(tickets[instanceName] as MyActionButton).addEventListener(MouseEvent.CLICK, onScratch);
 						break;
-					
 				}
 			}
 		}
@@ -62,8 +65,9 @@ package com.gsn.games.scratchy.views {
 			trace("[SCRATCH] ");
 			//disable button
 			var tgt:String = (event.target as DisplayObject).name;
-			if ((tickets[tgt] as MyActionButton).enabled){
-				trace("Scratch!!");
+			if ((tickets[tgt] as MyActionButton).enabled && lastScratched == ""){
+				trace("Scratch!! "+tgt);
+				lastScratched = tgt;
 				dispatchEvent(new GameEvent(GameEvent.SCRATCH_TICKET));
 			}
 			ticketsLeft_tf.text = String(Number(ticketsLeft_tf.text)-1);
@@ -74,6 +78,25 @@ package com.gsn.games.scratchy.views {
 			var total:Number = Number(tokensWon_tf.text)+ winnings;
 			tokensWon_tf.text = String(total);
 			trace("### tokens displayed so far: "+total);
+			var ticket:MyActionButton = (tickets[lastScratched] as MyActionButton);
+			TweenMax.delayedCall(2, showNewTicket);
+		}
+		
+		protected function showNewTicket():void {
+			trace("### show new ticket for "+lastScratched);
+			//todo: remove all "scratched effects"
+			(tickets[lastScratched] as MyActionButton).enabled = true;
+			lastScratched = "";
+		}
+		
+		private function cloneObject(source:DisplayObject):MovieClip {
+			var objectClass:Class = Object(source).constructor;
+			var instance:MovieClip = new objectClass() as MovieClip;
+			instance.transform = source.transform;
+			instance.filters = source.filters;
+			instance.cacheAsBitmap = source.cacheAsBitmap;
+			instance.opaqueBackground = source.opaqueBackground;
+			return instance;
 		}
 	}
 }
