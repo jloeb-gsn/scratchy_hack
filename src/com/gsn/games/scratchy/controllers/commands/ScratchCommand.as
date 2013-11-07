@@ -1,12 +1,10 @@
 package com.gsn.games.scratchy.controllers.commands {
 	import com.gsn.games.core.models.playermanager.IPlayerManager;
-	import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
 	import com.gsn.games.scratchy.controllers.events.ScratchResultEvent;
 	import com.gsn.games.scratchy.models.GameData;
 	import com.gsn.games.scratchy.models.GameModel;
 	
-	import flash.display3D.IndexBuffer3D;
 	import flash.utils.Dictionary;
 	
 	import org.robotlegs.mvcs.Command;
@@ -29,9 +27,17 @@ package com.gsn.games.scratchy.controllers.commands {
 			//update model
 			model.ticketsRemaining--;
 			trace(">> Tickets remaining: "+model.ticketsRemaining);
-			processOutcome(GameData.OUTCOMES[id]);
-			//tell view
-			dispatch(new GameEvent(GameEvent.GAME_MODEL_UPDATED));
+			var winnings:Number = processOutcome(GameData.OUTCOMES[id]);
+			
+			model.winningsSoFar += winnings;
+			playerMgr.tokens += winnings;
+			trace(">>>>>> added winnings: "+winnings);
+			
+			//do bonuses
+			var bonuses:int = int(Math.floor(Math.random()*3));//0,1, or 2
+			model.bonusPoints += bonuses;
+			trace(">>>>>>> Added bonus points: "+bonuses);
+			dispatch(new ScratchResultEvent(ScratchResultEvent.RESULT_CHOSEN, id, winnings, bonuses));
 			
 			if (model.ticketsRemaining <= 0){
 				trace(">>>>>>>> OUT OF TICKETS");
@@ -41,7 +47,7 @@ package com.gsn.games.scratchy.controllers.commands {
 		}
 		
 		/** takes the 3 symbols, determines which has the most, and does the payouts */
-		protected function processOutcome(icons:Array):void {
+		protected function processOutcome(icons:Array):Number {
 			//ICON_Cherry, ICON_7, ICON_Cherry for example
 			var dominantIcon:String = "";
 			var numIcons:Dictionary = new Dictionary();
@@ -65,15 +71,12 @@ package com.gsn.games.scratchy.controllers.commands {
 				dispatch(new GameEvent(GameEvent.TICKETS_ADDED));
 			}
 			//update tokens
-			var winnings:Number =Number(GameData.PAYOUTS[dominantIcon][numIcons[dominantIcon]-1]);
-			model.winningsSoFar += winnings;
-			playerMgr.tokens += winnings;
-			trace(">>>>>> added winnings: "+winnings);
+			return Number(GameData.PAYOUTS[dominantIcon][numIcons[dominantIcon]-1]);
+			
 		}
 		
 		protected function determineOutcome():int {
 			var outcomeId:int = int(Math.floor(Math.random()*GameData.OUTCOMES.length));
-			dispatch(new ScratchResultEvent(ScratchResultEvent.RESULT_CHOSEN, outcomeId));
 			trace(">>> Outcome Chosen: "+outcomeId);
 			return outcomeId;
 		}

@@ -2,6 +2,7 @@ package com.gsn.games.scratchy.views {
 	
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
 	import com.gsn.games.scratchy.controllers.events.ScratchResultEvent;
+	import com.gsn.games.scratchy.models.GameData;
 	import com.gsn.games.scratchy.models.GameModel;
 	
 	import org.robotlegs.mvcs.Mediator;
@@ -10,6 +11,8 @@ package com.gsn.games.scratchy.views {
 		
 		[Inject]
 		public var model:GameModel;
+		[Inject]
+		public var view:ScratchCardView;
 		
 		public function ScratchCardMediator() {
 			super();
@@ -19,7 +22,6 @@ package com.gsn.games.scratchy.views {
 			addViewListener(GameEvent.SCRATCH_TICKET, onScratchedTicket);
 			addContextListener(ScratchResultEvent.RESULT_CHOSEN, onResults);
 			addContextListener(GameEvent.TICKETS_ADDED, onAddTickets);
-			addContextListener(GameEvent.GAME_MODEL_UPDATED, onModelUpdated);
 			super.onRegister();
 		}
 		
@@ -34,14 +36,14 @@ package com.gsn.games.scratchy.views {
 		
 		protected function onResults(event:ScratchResultEvent):void {
 			//show the scratch results
+			trace("--> ScratchcardMediator onResults: [won "+event.winningsRecieved+"][bonus stickers "+event.numBonusSymbols+"]");
+			var icons:Array = GameData.OUTCOMES[event.outcome];
+			view.showScratchResult(icons, event.winningsRecieved, event.numBonusSymbols);
 		}
 		
 		protected function onAddTickets(event:GameEvent):void {
 			//update view that tickets are added
-		}
-		
-		protected function onModelUpdated(event:GameEvent):void {
-			
+			trace("--> ScratchcardMediator onAddTickets");
 		}
 	}
 }

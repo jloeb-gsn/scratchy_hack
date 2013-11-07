@@ -55,9 +55,10 @@ package com.gsn.games.scratchy.views {
 				dispatchEvent(new GameEvent(GameEvent.SCRATCH_TICKET));
 			}
 			(tickets[tgt] as MyActionButton).enabled = false;
-			//play animations
-			//do win
-			//new ticket pops in
+		}
+		
+		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
+			
 		}
 	}
 }
