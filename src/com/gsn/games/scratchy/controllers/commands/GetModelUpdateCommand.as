@@ -1,7 +1,7 @@
-package com.gsn.games.mygame.controllers.commands {
+package com.gsn.games.scratchy.controllers.commands {
 
-    import com.gsn.games.mygame.controllers.events.GameEvent;
-    import com.gsn.games.mygame.models.GameModel;
+    import com.gsn.games.scratchy.controllers.events.GameEvent;
+    import com.gsn.games.scratchy.models.GameModel;
 
     import org.robotlegs.mvcs.Command;
 

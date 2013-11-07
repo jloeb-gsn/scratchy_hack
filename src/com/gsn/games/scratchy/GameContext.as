@@ -1,17 +1,20 @@
-package com.gsn.games.mygame {
+package com.gsn.games.scratchy {
 
     import com.gsn.games.core.BaseContext;
     import com.gsn.games.core.controllers.events.StartupEvent;
-    import com.gsn.games.mygame.controllers.commands.AddGameViewCommand;
-    import com.gsn.games.mygame.controllers.commands.GetModelUpdateCommand;
-    import com.gsn.games.mygame.controllers.events.GameEvent;
-    import com.gsn.games.mygame.models.GameModel;
-    import com.gsn.games.mygame.services.GameAnalyticsHelper;
-    import com.gsn.games.mygame.views.MyGameView;
-    import com.gsn.games.mygame.views.MyGameViewMediator;
+    import com.gsn.games.scratchy.controllers.commands.AddGameViewCommand;
+    import com.gsn.games.scratchy.controllers.commands.GetModelUpdateCommand;
+    import com.gsn.games.scratchy.controllers.commands.ScratchCommand;
+    import com.gsn.games.scratchy.controllers.events.GameEvent;
+    import com.gsn.games.scratchy.models.GameModel;
+    import com.gsn.games.scratchy.services.GameAnalyticsHelper;
+    import com.gsn.games.scratchy.views.MyGameView;
+    import com.gsn.games.scratchy.views.MyGameViewMediator;
+    import com.gsn.games.scratchy.views.ScratchCardMediator;
+    import com.gsn.games.scratchy.views.ScratchCardView;
     import com.gsn.games.shared.utils.DebugUtils;
     import com.gsn.games.shared.utils.LayerManager;
-
+    
     import flash.display.DisplayObjectContainer;
 
     /**
@@ -43,6 +46,7 @@ package com.gsn.games.mygame {
 
             // Mapping the main view
             mediatorMap.mapView(MyGameView, MyGameViewMediator);
+			mediatorMap.mapView(ScratchCardView, ScratchCardMediator);
 
             // When the framework is ready, the command is called which draws the first view
             commandMap.mapEvent(StartupEvent.GAMEFORGE2_READY, AddGameViewCommand, StartupEvent);
@@ -55,6 +59,7 @@ package com.gsn.games.mygame {
             // Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);
 
+			commandMap.mapEvent(GameEvent.SCRATCH_TICKET, ScratchCommand, GameEvent);
 
             // After you've mapped your items, call the super to start up the rest of the framework. This is done at the end so that your functions are ready when the framework starts
             super.startup();

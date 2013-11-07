@@ -1,15 +1,15 @@
-package com.gsn.games.mygame.views {
+package com.gsn.games.scratchy.views {
 
     import com.gsn.games.core.models.common.interfaces.IDisposable;
     import com.gsn.games.core.models.languagemanager.LanguageManager;
     import com.gsn.games.core.services.soundmanager.SoundManager;
-    import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
-    import com.gsn.games.mygame.controllers.events.GameEvent;
-    import com.gsn.games.mygame.models.GameVO;
+    import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
+    import com.gsn.games.scratchy.controllers.events.GameEvent;
+    import com.gsn.games.scratchy.models.GameVO;
     import com.gsn.games.shared.assetsmanagement.AssetManager;
     import com.gsn.games.shared.assetsmanagement.AssetVO;
     import com.gsn.games.shared.components.mcbutton.MCButton;
-
+    
     import flash.display.DisplayObject;
     import flash.display.MovieClip;
     import flash.display.Sprite;
@@ -30,14 +30,14 @@ package com.gsn.games.mygame.views {
         // PROPERTIES
         //--------------------------------------------
         // References to important display objects
-        protected var pnlMain:Sprite;
-        protected var btnChange:MCButton;
-        protected var btnReset:MCButton;
-        protected var btnRestart:MCButton;
-        protected var btnQuit:MCButton;
-        protected var btnClose:MCButton;
-        protected var txtOutput:TextField;
+        protected var panel_wager:Sprite;
+		protected var panel_scratch:Sprite;
+		protected var panel_results:Sprite;
+		
+		public var BET_PER_TICKET:int = 100;
+		public var NUMBER_OF_TICKETS:int = 10;
 
+//		protected var hud;
         //--------------------------------------------
         // PUBLIC
         //--------------------------------------------
@@ -48,29 +48,14 @@ package com.gsn.games.mygame.views {
         }
 
         public function updateFromModel(vo:GameVO):void {
-            txtOutput.text = vo.message;
-        }
+
+		}
 
         /**
          * Handle cleanup
          * */
         public function dispose():void {
 
-            if (btnChange) {
-                btnChange.removeEventListener(MouseEvent.CLICK, onMouseClick);
-            }
-            if (btnReset) {
-                btnReset.removeEventListener(MouseEvent.CLICK, onMouseClick);
-            }
-            if (btnRestart) {
-                btnRestart.removeEventListener(MouseEvent.CLICK, onMouseClick);
-            }
-            if (btnQuit) {
-                btnQuit.removeEventListener(MouseEvent.CLICK, onMouseClick);
-            }
-            if (btnClose) {
-                btnClose.removeEventListener(MouseEvent.CLICK, onMouseClick);
-            }
         }
 
 
@@ -84,15 +69,16 @@ package com.gsn.games.mygame.views {
         protected function initUI():void {
 
             // Request a panel build
-            AssetManager.instance.buildPanel("main_screen_1", onMainPanel1Complete);
+            AssetManager.instance.buildPanel("wager_panel", onMainPanel1Complete);
+			panel_scratch = new ScratchCardView();
 
             // Request additional assets. Add the name of each asset, at it appears in the assetsManifest.xml or gameConfig.xml
             var assetNameV:Vector.<String> = new Vector.<String>();
             //assetNameV.push("SND_Aww");
-            assetNameV.push("SND_Beginpuzzle");
-            assetNameV.push("SND_Click02");
+           // assetNameV.push("SND_Beginpuzzle");
+            //assetNameV.push("SND_Click02");
             //assetNameV.push("SND_Correctletter");
-            assetNameV.push("SND_Prize03");
+           // assetNameV.push("SND_Prize03");
             AssetManager.instance.bulkRequest(assetNameV, onAssetsLoaded);
 
         }
@@ -102,22 +88,23 @@ package com.gsn.games.mygame.views {
             for each (var vo:AssetVO in loadedAssetsV) {
 
                 switch (vo.name) {
-                    case "PANEL_Main":
-                        pnlMain = vo.asset as Sprite;
-                        addChild(pnlMain);
-                        txtOutput = pnlMain.getChildByName("PROP_Output") as TextField;
+                    case "PANEL_Wager":
+						panel_wager = vo.asset as Sprite;
+                        addChild(panel_wager);
+                       // txtOutput = pnlMain.getChildByName("PROP_Output") as TextField;
                         break;
-                    case "BTN_EditAction":
+                    case "BTN_Start":
                         // Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
-                        var instanceName:String = vo.instanceName;
-                        var buttonLabel:String = LanguageManager.instance.getMessage(instanceName);
-                        switch (instanceName) {
+                        var btn:MyActionButton = new MyActionButton(vo.asset as MovieClip);
+						btn.addEventListener(MouseEvent.CLICK, onStart);
+                      //  var buttonLabel:String = LanguageManager.instance.getMessage(instanceName);
+                      /*  switch (instanceName) {
                             case "button_change":
-                                btnChange = new MyActionButton(vo.asset as MovieClip, buttonLabel);
-                                btnChange.addEventListener(MouseEvent.CLICK, onMouseClick);
+                             //   btnChange = new MyActionButton(vo.asset as MovieClip, buttonLabel);
+                             //   btnChange.addEventListener(MouseEvent.CLICK, onMouseClick);
                                 break;
                             case "button_reset":
-                                btnReset = new MyActionButton(vo.asset as MovieClip, buttonLabel);
+                               btnReset = new MyActionButton(vo.asset as MovieClip, buttonLabel);
                                 btnReset.addEventListener(MouseEvent.CLICK, onMouseClick);
                                 break;
                             case "button_restart":
@@ -128,49 +115,11 @@ package com.gsn.games.mygame.views {
                                 btnQuit = new MyActionButton(vo.asset as MovieClip, buttonLabel);
                                 btnQuit.addEventListener(MouseEvent.CLICK, onMouseClick);
                                 break;
-                        }
+                        }*/
                         break;
                     case "BTN_Close":
-                        btnClose = new MCButton(vo.asset as MovieClip);
-                        btnClose.addEventListener(MouseEvent.CLICK, onMouseClick);
-                        break;
-
-                }
-            }
-        }
-
-        private function onMainPanel2Complete(loadedAssetsV:Vector.<AssetVO>):void {
-            for each (var vo:AssetVO in loadedAssetsV) {
-                switch (vo.name) {
-                    case "PANEL_Main":
-                        pnlMain = vo.asset as Sprite;
-                        addChild(pnlMain);
-                        txtOutput = pnlMain.getChildByName("PROP_Output") as TextField;
-                        break;
-                    case "BTN_Close":
-                        // Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
-                        switch (vo.instanceName) {
-                            case "button_change":
-                                btnChange = new MCButton(vo.asset as MovieClip);
-                                btnChange.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_reset":
-                                btnReset = new MCButton(vo.asset as MovieClip);
-                                btnReset.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_restart":
-                                btnRestart = new MCButton(vo.asset as MovieClip);
-                                btnRestart.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_quit":
-                                btnQuit = new MCButton(vo.asset as MovieClip);
-                                btnQuit.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_close":
-                                btnClose = new MCButton(vo.asset as MovieClip);
-                                btnClose.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                        }
+                    //    btnClose = new MCButton(vo.asset as MovieClip);
+                   //     btnClose.addEventListener(MouseEvent.CLICK, onMouseClick);
                         break;
 
                 }
@@ -213,36 +162,12 @@ package com.gsn.games.mygame.views {
 
         }
 
-        protected function onMouseClick(event:Event):void {
-
-            var instanceName:String = (event.currentTarget as DisplayObject).name;
-            var message:String = "Clicked: " + instanceName;
-            switch (instanceName) {
-                case "button_change":
-                    SoundManager.instance.playSound("click");
-                    break;
-                case "button_reset":
-                    SoundManager.instance.playSound("begin");
-                    break;
-                case "button_restart":
-                    SoundManager.instance.playSound("click");
-                    break;
-                case "button_quit":
-                    SoundManager.instance.playSound("begin");
-                    break;
-                case "button_close":
-                    SoundManager.instance.playSound("prize");
-                    break;
-            }
-
-
-            // Request update of UI from model
-            this.getModelUpdate(message);
-
-            // Example analytics event
-            this.trackEvent();
-
-        }
+        protected function onStart(event:MouseEvent):void {
+			removeChild(panel_wager);
+			addChild(panel_scratch);
+			dispatchEvent(new GameEvent(GameEvent.START_GAME));
+		}
+		
 
         //--------------------------------------------
         // PRIVATE

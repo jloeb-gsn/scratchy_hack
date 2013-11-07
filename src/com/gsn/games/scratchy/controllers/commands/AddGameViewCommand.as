@@ -1,6 +1,6 @@
-package com.gsn.games.mygame.controllers.commands {
+package com.gsn.games.scratchy.controllers.commands {
 
-    import com.gsn.games.mygame.views.MyGameView;
+    import com.gsn.games.scratchy.views.MyGameView;
     import com.gsn.games.shared.utils.LayerManager;
 
     import org.robotlegs.mvcs.Command;

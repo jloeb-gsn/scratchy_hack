@@ -1,4 +1,4 @@
-package com.gsn.games.mygame.controllers.events {
+package com.gsn.games.scratchy.controllers.events {
 	
     import flash.events.Event;
 

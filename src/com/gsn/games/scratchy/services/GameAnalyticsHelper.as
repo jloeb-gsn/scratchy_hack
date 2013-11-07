@@ -1,7 +1,7 @@
-package com.gsn.games.mygame.services {
+package com.gsn.games.scratchy.services {
     import com.gsn.games.core.models.analytics.vo.AnalyticsVO;
     import com.gsn.games.core.services.analytics.AnalyticsHelper;
-    import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
+    import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.shared.utils.DebugUtils;
 
     /**

@@ -1,4 +1,4 @@
-package com.gsn.games.mygame.models
+package com.gsn.games.scratchy.models
 {
     /**
     * Sample of game value object.

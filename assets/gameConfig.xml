@@ -8,27 +8,22 @@
     </ConfigData>
 
     <!-- PANEL LAYOUTS -->
-    <panelLayout name="main_screen_1" panelname="PANEL_Main">
-        <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
-        <element placeholdername="PROP_Change" assetname="BTN_EditAction" instancename="button_change"/>
-        <element placeholdername="PROP_Reset" assetname="BTN_EditAction" instancename="button_reset"/>
-        <element placeholdername="PROP_Restart" assetname="BTN_EditAction" instancename="button_restart"/>
-        <element placeholdername="PROP_Quit" assetname="BTN_EditAction" instancename="button_quit"/>
-        <element placeholdername="PROP_Close" assetname="BTN_Close" instancename="button_close"/>
-        <element placeholdername="PROP_Box1" assetname="GFX_RedBox" instancename="GFX_RedBox"/>
-        <element placeholdername="PROP_Box2" assetname="GFX_BlueBox" instancename="GFX_BlueBox"/>
-        <element placeholdername="PROP_Box3" assetname="GFX_GreenBox" instancename="GFX_GreenBox"/>
+    <panelLayout name="wager_panel" panelname="PANEL_Wager">
+    	<element placeholdername="PROP_WagerTitle" assetname="GFX_WagerTitle" instancename="GFX_WagerTitle"/>
+        <element placeholdername="PROP_Tickets" assetname="GFX_NumberofTickets" instancename="numTickets"/>
+        <element placeholdername="PROP_Bet" assetname="GFX_betpertickets" instancename="betPerTickets"/>
+        <element placeholdername="PROP_Total" assetname="GFX_total_bet" instancename="background"/>
+        <element placeholdername="PROP_Start" assetname="BTN_Start" instancename="startButton"/>
     </panelLayout>
-    <panelLayout name="main_screen_2" panelname="PANEL_Main">
+    
+    <panelLayout name="scratch_panel" panelname="PANEL_Scratch">
         <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
-        <element placeholdername="PROP_Change" assetname="BTN_Close" instancename="button_change"/>
-        <element placeholdername="PROP_Reset" assetname="BTN_Close" instancename="button_reset"/>
-        <element placeholdername="PROP_Restart" assetname="BTN_Close" instancename="button_restart"/>
-        <element placeholdername="PROP_Quit" assetname="BTN_Close" instancename="button_quit"/>
-        <element placeholdername="PROP_Close" assetname="BTN_Close" instancename="button_close"/>
-        <element placeholdername="PROP_Box1" assetname="GFX_GreenBox" instancename="GFX_GreenBox"/>
-        <element placeholdername="PROP_Box2" assetname="GFX_RedBox" instancename="GFX_RedBox"/>
-        <element placeholdername="PROP_Box3" assetname="GFX_BlueBox" instancename="GFX_BlueBox"/>
-
+        <element placeholdername="PROP_Tokens" assetname="GFX_tokenbalance" instancename="tokenBalance"/>
+        <element placeholdername="PROP_Ticket0" assetname="BTN_Ticket" instancename="ticket_0"/>
+        <element placeholdername="PROP_Ticket1" assetname="BTN_Ticket" instancename="ticket_1"/>
+        <element placeholdername="PROP_Ticket2" assetname="BTN_Ticket" instancename="ticket_2"/>
+        <element placeholdername="PROP_Ticket3" assetname="BTN_Ticket" instancename="ticket_3"/>
+        <element placeholdername="PROP_Ticket4" assetname="BTN_Ticket" instancename="ticket_4"/>
+        <element placeholdername="PROP_Ticket5" assetname="BTN_Ticket" instancename="ticket_5"/>
     </panelLayout>
 </data>

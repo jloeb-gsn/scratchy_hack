@@ -1,14 +1,13 @@
-package com.gsn.games.mygame.views {
+package com.gsn.games.scratchy.views {
 
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.core.models.gameconfigmanager.IGameConfigManager;
     import com.gsn.games.core.models.languagemanager.ILanguageManager;
-    import com.gsn.games.mygame.controllers.events.GameAnalyticsEvent;
-    import com.gsn.games.mygame.controllers.events.GameEvent;
-    import com.gsn.games.mygame.services.GameAnalyticsHelper;
-    import com.gsn.games.shared.utils.DebugUtils;
-    import com.gsn.games.shared.utils.JSONUtils;
-
+    import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
+    import com.gsn.games.scratchy.controllers.events.GameEvent;
+    import com.gsn.games.scratchy.models.GameModel;
+    import com.gsn.games.scratchy.services.GameAnalyticsHelper;
+    
     import org.robotlegs.mvcs.Mediator;
 
     /**
@@ -27,6 +26,8 @@ package com.gsn.games.mygame.views {
         public var gameAnalytics:GameAnalyticsHelper;
         [Inject]
         public var gameConfigManager:IGameConfigManager;
+		[Inject]
+		public var model:GameModel;
 
         // PROPERTIES
 
@@ -47,6 +48,7 @@ package com.gsn.games.mygame.views {
 
             // Listeners to the game
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
+			addViewListener(GameEvent.START_GAME, onGameStart);
 
             // Example usage of analytics tracking from the view
             addViewListener(GameAnalyticsEvent.TRACK, onTrackClick);
@@ -56,8 +58,8 @@ package com.gsn.games.mygame.views {
             super.onRegister();
 
             // Example using the LanguageManager to look up a text message
-            var balanceText:String = languageManager.getMessage("balance_label");
-            DebugUtils.log(("test lang lookup:" + balanceText), "TestGame", DebugUtils.VERBOSE);
+           // var balanceText:String = languageManager.getMessage("balance_label");
+            //DebugUtils.log(("test lang lookup:" + balanceText), "TestGame", DebugUtils.VERBOSE);
 
         }
 
@@ -89,6 +91,14 @@ package com.gsn.games.mygame.views {
             // Example calling an analytics event through GameAnalyticsHelper
             gameAnalytics.trackPopupCount();
         }
+		
+		protected function onGameStart(event:GameEvent):void {
+			model.betPerTicket = view.BET_PER_TICKET;
+			model.totalTickets = view.NUMBER_OF_TICKETS;
+			model.currentState = GameEvent.GAME_STATE_PLAY;
+			model.ticketsRemaining = model.totalTickets = 10;
+			model.bonusPoints = model.winningsSoFar = 0;
+		}
 
         /**
          * Event handler for tracking events from the view

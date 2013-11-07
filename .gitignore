@@ -13,3 +13,4 @@ Thumbs.db
 # add missing files
 bin-debug/*
 .settings/*
+/bin-debug

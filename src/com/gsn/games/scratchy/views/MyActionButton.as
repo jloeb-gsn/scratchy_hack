@@ -1,4 +1,4 @@
-package com.gsn.games.mygame.views {
+package com.gsn.games.scratchy.views {
 
     import com.gsn.games.shared.components.mcbutton.MCButton;
 
