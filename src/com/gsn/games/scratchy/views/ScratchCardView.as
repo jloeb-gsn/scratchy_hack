@@ -7,12 +7,16 @@ package com.gsn.games.scratchy.views {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
 	import flash.utils.Dictionary;
 	
 	public class ScratchCardView extends Sprite {
 		
 		protected var scratchUIContainer:Sprite;
 		protected var tickets:Dictionary = new Dictionary();
+		
+		protected var tokensWon_tf:TextField;
+		protected var ticketsLeft_tf:TextField;
 		
 		protected var ticketAsset:MovieClip;
 		
@@ -25,6 +29,11 @@ package com.gsn.games.scratchy.views {
 			AssetManager.instance.buildPanel("scratch_panel", onPanelBuilt);
 		}
 		
+		public function start(tickets:int):void {
+			ticketsLeft_tf.text = String(tickets);
+			tokensWon_tf.text = "0";
+		}
+		
 		protected function onPanelBuilt(loadedAssetsV:Vector.<AssetVO>):void {
 			for each (var vo:AssetVO in loadedAssetsV) {
 				
@@ -32,6 +41,9 @@ package com.gsn.games.scratchy.views {
 					case "PANEL_Scratch":
 						scratchUIContainer = vo.asset as Sprite;
 						addChild(scratchUIContainer);
+						
+						tokensWon_tf = scratchUIContainer.getChildByName("TF_tokenswon") as TextField;
+						ticketsLeft_tf = scratchUIContainer.getChildByName("TF_ticketsleft") as TextField;
 						// txtOutput = pnlMain.getChildByName("PROP_Output") as TextField;
 						break;
 					case "BTN_Ticket":
@@ -51,14 +63,17 @@ package com.gsn.games.scratchy.views {
 			//disable button
 			var tgt:String = (event.target as DisplayObject).name;
 			if ((tickets[tgt] as MyActionButton).enabled){
-				trace("Scratch works!!");
+				trace("Scratch!!");
 				dispatchEvent(new GameEvent(GameEvent.SCRATCH_TICKET));
 			}
+			ticketsLeft_tf.text = String(Number(ticketsLeft_tf.text)-1);
 			(tickets[tgt] as MyActionButton).enabled = false;
 		}
 		
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
-			
+			var total:Number = Number(tokensWon_tf.text)+ winnings;
+			tokensWon_tf.text = String(total);
+			trace("### tokens displayed so far: "+total);
 		}
 	}
 }

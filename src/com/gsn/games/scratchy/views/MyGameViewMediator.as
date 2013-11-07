@@ -98,6 +98,7 @@ package com.gsn.games.scratchy.views {
 			model.currentState = GameEvent.GAME_STATE_PLAY;
 			model.ticketsRemaining = model.totalTickets = 10;//todo: make this UI driven when the UI works
 			model.bonusPoints = model.winningsSoFar = 0;
+			dispatch(event);
 		}
 
         /**

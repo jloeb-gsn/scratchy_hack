@@ -20,13 +20,20 @@ package com.gsn.games.scratchy.views {
 		
 		override public function onRegister():void {
 			addViewListener(GameEvent.SCRATCH_TICKET, onScratchedTicket);
+			
 			addContextListener(ScratchResultEvent.RESULT_CHOSEN, onResults);
 			addContextListener(GameEvent.TICKETS_ADDED, onAddTickets);
+			addContextListener(GameEvent.START_GAME, onGameStart);
+			
 			super.onRegister();
 		}
 		
 		override public function onRemove():void {
 			super.onRemove();
+		}
+		
+		protected function onGameStart(e:GameEvent):void {
+			view.start(model.totalTickets);
 		}
 		
 		protected function onScratchedTicket(e:GameEvent):void {
