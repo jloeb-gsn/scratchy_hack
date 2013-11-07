@@ -70,7 +70,7 @@ package com.gsn.games.scratchy {
          * Provide the devKey for your game.
          * */
         override protected function assignDevKey():String {
-            return "enter-dev-key";
+            return "98vspnAnjT3TUkqpbSrMGK6ApsGjy9KkK1Pvfeasin3tbodUWLe9tFAxOZB8trjc";
         }
 
         /**
