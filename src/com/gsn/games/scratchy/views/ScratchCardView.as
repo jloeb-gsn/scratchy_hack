@@ -2,6 +2,7 @@ package com.gsn.games.scratchy.views {
 	import com.greensock.TweenLite;
 	import com.greensock.TweenMax;
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
+	import com.gsn.games.scratchy.models.GameData;
 	import com.gsn.games.shared.assetsmanagement.AssetManager;
 	import com.gsn.games.shared.assetsmanagement.AssetVO;
 	
@@ -21,7 +22,11 @@ package com.gsn.games.scratchy.views {
 		protected var tokensWon_tf:TextField;
 		protected var ticketsLeft_tf:TextField;
 		
+		protected var showingSymbols:Array = [];
+		protected var showingBonuses:Array = [];
+		
 		protected var ticketAsset:MovieClip;
+		protected var iconsLoaded:Dictionary = new Dictionary();
 		
 		protected var lastScratched:String = "";
 		
@@ -30,13 +35,22 @@ package com.gsn.games.scratchy.views {
 			initUI();
 		}
 		
-		protected function initUI():void {
-			AssetManager.instance.buildPanel("scratch_panel", onPanelBuilt);
-		}
-		
 		public function start(tickets:int):void {
 			ticketsLeft_tf.text = String(tickets);
 			tokensWon_tf.text = "0";
+		}
+		
+		protected function initUI():void {
+			AssetManager.instance.buildPanel("scratch_panel", onPanelBuilt);
+			var assetNameV:Vector.<String> = new Vector.<String>();
+			assetNameV.push(GameData.ICON_Cherry,GameData.ICON_7,GameData.ICON_Bell,GameData.ICON_Diamond,GameData.ICON_Ticket,GameData.ICON_Bonus);
+			AssetManager.instance.bulkRequest(assetNameV,onAssets);
+		}
+		
+		protected function onAssets(loadedAssetsV:Vector.<AssetVO>):void {
+			for each (var vo:AssetVO in loadedAssetsV) {
+				iconsLoaded[vo.name] = vo.asset as Sprite;
+			}
 		}
 		
 		protected function onPanelBuilt(loadedAssetsV:Vector.<AssetVO>):void {
@@ -57,6 +71,10 @@ package com.gsn.games.scratchy.views {
 						var instanceName:String = vo.instanceName;
 						tickets[instanceName] = new MyActionButton(vo.asset as MovieClip);
 						(tickets[instanceName] as MyActionButton).addEventListener(MouseEvent.CLICK, onScratch);
+						for (var i:int=0; i < 3; i++){
+							var mc:MovieClip = ((tickets[instanceName] as MyActionButton).controlledMc.getChildByName("symbol_"+i) as MovieClip);
+							mc.visible = false;
+						}
 						break;
 				}
 			}
@@ -78,8 +96,28 @@ package com.gsn.games.scratchy.views {
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
 			var total:Number = Number(tokensWon_tf.text)+ winnings;
 			tokensWon_tf.text = String(total);
+			
 			trace("### tokens displayed so far: "+total);
+			
 			var ticket:MyActionButton = (tickets[lastScratched] as MyActionButton);
+			for (var i:int=0; i < 3; i++){
+				var mc:MovieClip = (ticket.controlledMc.getChildByName("symbol_"+i) as MovieClip);
+				mc.visible = true;
+				//add icon symbol
+				var newClip:MovieClip = cloneObject(this.iconsLoaded[icons[i]]);
+				mc.addChild(newClip);
+				showingSymbols[i] = newClip;
+				//add bonus symbol
+				if (numBonuses > 0){
+					var r:Number = Math.random()*icons.length-i;//max 3, max 2, max 1
+					if (r < numBonuses){
+						showingBonuses[i] = cloneObject(iconsLoaded[GameData.ICON_Bonus]);
+						mc.addChild(showingBonuses[i]);
+						numBonuses--;
+					}
+				}
+			}
+			
 			TweenMax.delayedCall(1.2, showNewTicket);
 		}
 		
@@ -90,6 +128,17 @@ package com.gsn.games.scratchy.views {
 		
 		protected function easeInTicket():void {
 			//todo: remove all "scratched effects"
+			var ticket:MyActionButton = (tickets[lastScratched] as MyActionButton);
+			for (var i:int=0; i < 3; i++){
+				var mc:MovieClip = (ticket.controlledMc.getChildByName("symbol_"+i) as MovieClip);
+				mc.visible = false;
+				mc.removeChild(showingSymbols[i]);
+				if (showingBonuses[i] != null){
+					mc.removeChild(showingBonuses[i]);
+					showingBonuses[i] = null;
+				}
+			}
+			
 			TweenLite.to((tickets[lastScratched] as MyActionButton).controlledMc, .3, {alpha:1});
 			(tickets[lastScratched] as MyActionButton).enabled = true;
 			lastScratched = "";

@@ -1,6 +1,6 @@
 <data>
   <info>
-    <compiledate>Thu Nov 07 2013 14:32:54 GMT-0800 (PST)</compiledate>
+    <compiledate>Thu Nov 07 2013 16:29:45 GMT-0800 (PST)</compiledate>
     <compileversion>AssetBundler_v2.0.5.jsfl</compileversion>
     <compileroot>bundle_assets</compileroot>
   </info>
@@ -80,32 +80,32 @@
   <library bundle="Icons">
     <element id="GFX_7" type="GFX">
       <validations>
-        <validation width="91" height="90" regX="0" regY="0" itemType="bitmap" classname="GFX_7"/>
+        <validation width="81.95" height="80" regX="0" regY="0" itemType="movie clip" classname="GFX_7"/>
       </validations>
     </element>
-    <element id="GFX_bonus_stickers" type="GFX">
+    <element id="GFX_bell" type="GFX">
       <validations>
-        <validation width="74" height="37" regX="0" regY="0" itemType="bitmap" classname="GFX_bonus_stickers"/>
+        <validation width="82" height="80" regX="0" regY="0" itemType="movie clip" classname="GFX_bell"/>
       </validations>
     </element>
-    <element id="GFX_Bell" type="GFX">
+    <element id="GFX_bonus" type="GFX">
       <validations>
-        <validation width="84" height="84" regX="0" regY="0" itemType="bitmap" classname="GFX_Bell"/>
+        <validation width="48.35" height="47.45" regX="-0.25" regY="0" itemType="movie clip" classname="GFX_bonus"/>
       </validations>
     </element>
     <element id="GFX_cherry" type="GFX">
       <validations>
-        <validation width="77" height="78" regX="0" regY="0" itemType="bitmap" classname="GFX_cherry"/>
+        <validation width="82" height="80" regX="0" regY="0" itemType="movie clip" classname="GFX_cherry"/>
       </validations>
     </element>
     <element id="GFX_diamond" type="GFX">
       <validations>
-        <validation width="106" height="81" regX="0" regY="0" itemType="bitmap" classname="GFX_diamond"/>
+        <validation width="82" height="80" regX="0" regY="0" itemType="movie clip" classname="GFX_diamond"/>
       </validations>
     </element>
     <element id="GFX_ticket" type="GFX">
       <validations>
-        <validation width="82" height="73" regX="0" regY="0" itemType="bitmap" classname="GFX_ticket"/>
+        <validation width="82" height="80" regX="0" regY="0" itemType="movie clip" classname="GFX_ticket"/>
       </validations>
     </element>
   </library>

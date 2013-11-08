@@ -5,10 +5,10 @@ package com.gsn.games.scratchy.models {
 		public function GameData() { }
 		
 		//icons
-		public static const ICON_Bonus:String = "GFX_bonus_stickers";
+		public static const ICON_Bonus:String = "GFX_bonus";
 		
 		public static const ICON_7:String = "GFX_7";
-		public static const ICON_Bell:String = "GFX_Bell";
+		public static const ICON_Bell:String = "GFX_bell";
 		public static const ICON_Cherry:String =  "GFX_cherry";
 		public static const ICON_Diamond:String = "GFX_diamond";
 		public static const ICON_Ticket:String = "GFX_ticket";
