@@ -27,7 +27,7 @@ package com.gsn.games.scratchy.controllers.commands {
 			//update model
 			model.ticketsRemaining--;
 			trace(">> Tickets remaining: "+model.ticketsRemaining);
-			var winnings:Number = processOutcome(GameData.OUTCOMES[id]);
+			var winnings:Number = processOutcome(GameData.OUTCOMES[id]) * model.bonusLevel;
 			
 			model.winningsSoFar += winnings;
 			playerMgr.tokens += winnings;
@@ -36,6 +36,7 @@ package com.gsn.games.scratchy.controllers.commands {
 			//do bonuses
 			var bonuses:int = int(Math.floor(Math.random()*3));//0,1, or 2
 			model.bonusPoints += bonuses;
+			
 			trace(">>>>>>> Added bonus points: "+bonuses);
 			dispatch(new ScratchResultEvent(ScratchResultEvent.RESULT_CHOSEN, id, winnings, bonuses));
 			

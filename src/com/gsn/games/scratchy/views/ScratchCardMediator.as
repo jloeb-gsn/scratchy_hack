@@ -55,6 +55,11 @@ package com.gsn.games.scratchy.views {
 			trace("--> ScratchcardMediator onResults: [won "+event.winningsRecieved+"][bonus stickers "+event.numBonusSymbols+"]");
 			var icons:Array = GameData.OUTCOMES[event.outcome];
 			view.showScratchResult(icons, event.winningsRecieved, event.numBonusSymbols);
+			
+			//tell everyone we have a bonus!
+			if (event.numBonusSymbols > 0){
+				dispatch(new GameEvent(GameEvent.BONUS_ADDED));
+			}
 		}
 		
 		protected function onTicketsGone(e:GameEvent):void {

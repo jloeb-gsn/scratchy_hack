@@ -71,7 +71,7 @@ package com.gsn.games.scratchy.views {
 
             // Request additional assets. Add the name of each asset, at it appears in the assetsManifest.xml or gameConfig.xml
             var assetNameV:Vector.<String> = new Vector.<String>();
-            assetNameV.push("SND_music");
+            assetNameV.push("SND_music", "SND_cardlose", "SND_cardwin", "SND_results", "SND_gamestart", "SND_buycards", "SND_bonuslevelup");
            // assetNameV.push("SND_Beginpuzzle");
             //assetNameV.push("SND_Click02");
             //assetNameV.push("SND_Correctletter");
@@ -116,6 +116,9 @@ package com.gsn.games.scratchy.views {
                         SoundManager.instance.registerSound(vo.sound, "main_music", SoundManager.SOUND_TYPE_MUSIC);
 						SoundManager.instance.playSound("main_music", new SoundOptionsVO(.4,-1,0,false,SoundOptionsVO.PLAYBACK_TYPE_RESTART));
                         break;
+					default:
+						SoundManager.instance.registerSound(vo.sound, vo.name, SoundManager.SOUND_TYPE_SFX);
+						break;
                 }
             }
 
@@ -125,14 +128,16 @@ package com.gsn.games.scratchy.views {
 			removeChild(panel_wager);
 			addChild(panel_scratch);
 			dispatchEvent(new GameEvent(GameEvent.START_GAME));
+			SoundManager.instance.playSound("SND_gamestart");
 		}
 		
 		public function onGameEnd():void {
 			removeChild(panel_scratch);
 			addChild(panel_results);
 			dispatchEvent(new GameEvent(GameEvent.SHOW_RESULTS));
+			SoundManager.instance.playSound("SND_results");
 			//temp:
-			TweenMax.delayedCall(3, onResultsEnd);
+			TweenMax.delayedCall(8, onResultsEnd);
 		}
 		
 		public function onResultsEnd():void {

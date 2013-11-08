@@ -41,6 +41,8 @@ package com.gsn.games.scratchy.models
 		public var bonusPoints:int;
 		public var winningsSoFar:int = 0;
 		
-		
+		public function get bonusLevel():int {
+			return int(Math.floor(bonusPoints/5))+1;
+		}
     }
 }

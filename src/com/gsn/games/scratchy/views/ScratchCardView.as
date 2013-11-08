@@ -1,6 +1,7 @@
 package com.gsn.games.scratchy.views {
 	import com.greensock.TweenLite;
 	import com.greensock.TweenMax;
+	import com.gsn.games.core.services.soundmanager.SoundManager;
 	import com.gsn.games.scratchy.controllers.events.GameEvent;
 	import com.gsn.games.scratchy.models.GameData;
 	import com.gsn.games.shared.assetsmanagement.AssetManager;
@@ -109,6 +110,7 @@ package com.gsn.games.scratchy.views {
 		}
 		
 		protected function onMoreTickets(e:MouseEvent):void {
+			SoundManager.instance.playSound("SND_buycards");
 			removeChild(noTicketsPanel);
 			dispatchEvent(new GameEvent(GameEvent.TICKETS_ADDED));
 		}
@@ -143,6 +145,12 @@ package com.gsn.games.scratchy.views {
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
 			var total:Number = Number(tokensWon_tf.text)+ winnings;
 			tokensWon_tf.text = String(total);
+			
+			if (winnings == 0){
+				SoundManager.instance.playSound("SND_cardlose");
+			} else {
+				SoundManager.instance.playSound("SND_cardwin");
+			}
 			
 			trace("### tokens displayed so far: "+total);
 			
