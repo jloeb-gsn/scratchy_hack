@@ -1,6 +1,6 @@
 <data>
   <info>
-    <compiledate>Thu Nov 07 2013 19:04:27 GMT-0800 (PST)</compiledate>
+    <compiledate>Thu Nov 07 2013 21:20:10 GMT-0800 (PST)</compiledate>
     <compileversion>AssetBundler_v2.0.5.jsfl</compileversion>
     <compileroot>bundle_assets</compileroot>
   </info>
@@ -139,6 +139,11 @@
     <element id="GFX_dontgiveup" type="GFX">
       <validations>
         <validation width="683.9" height="255.6" regX="0" regY="0" itemType="movie clip" classname="GFX_dontgiveup"/>
+      </validations>
+    </element>
+    <element id="GFX_Meter" type="GFX">
+      <validations>
+        <validation width="135.5" height="454.4" regX="-15" regY="-79.44999999999999" itemType="movie clip" classname="GFX_Meter"/>
       </validations>
     </element>
     <element id="GFX_tokenbalance" type="GFX">
