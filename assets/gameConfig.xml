@@ -15,7 +15,11 @@
         <element placeholdername="PROP_Total" assetname="GFX_total_bet" instancename="background"/>
         <element placeholdername="PROP_Start" assetname="BTN_Start" instancename="startButton"/>
     </panelLayout>
-    
+    <panelLayout name="notickets_panel" panelname="PANEL_MoreTickets">
+    	<element placeholdername="PROP_dontgiveup" assetname="GFX_dontgiveup" instancename="GFX_dontgiveup"/>
+    	<element placeholdername="PROP_buymore" assetname="BTN_buymore" instancename="BTN_buymore"/>
+    	<element placeholdername="PROP_results" assetname="BTN_results" instancename="BTN_Results"/>
+    </panelLayout>
     <panelLayout name="scratch_panel" panelname="PANEL_Scratch">
         <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
         <element placeholdername="PROP_Tokens" assetname="GFX_BLACK_STRIP" instancename="tokenBalance"/>

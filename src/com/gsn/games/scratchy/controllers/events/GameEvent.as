@@ -17,6 +17,11 @@ package com.gsn.games.scratchy.controllers.events {
 		
 		public static const SCRATCH_TICKET:String = "SCRATCH_TICKET";
 		public static const START_GAME:String = "START_GAME";
+		public static const SHOW_RESULTS:String = "RESULTS_SHOW";
+		public static const RESULTS_END:String = "END_RESULTS";
+		public static const END_GAME:String = "GAME_END";
+		
+		public static const BONUS_ADDED:String = "BONUS_ADD";
 		
 		public static const GAME_STATE_WAGER:String = "GAME_STATE_WAGER";
 		public static const GAME_STATE_PLAY:String = "GAME_STATE_PLAY";

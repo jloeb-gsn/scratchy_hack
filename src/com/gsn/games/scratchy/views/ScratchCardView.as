@@ -17,6 +17,7 @@ package com.gsn.games.scratchy.views {
 	public class ScratchCardView extends Sprite {
 		
 		protected var scratchUIContainer:Sprite;
+		protected var noTicketsPanel:Sprite;
 		protected var tickets:Dictionary = new Dictionary();
 		
 		protected var tokensWon_tf:TextField;
@@ -30,6 +31,8 @@ package com.gsn.games.scratchy.views {
 		
 		protected var lastScratched:String = "";
 		
+		protected var showNoTickets:Boolean = false;
+		
 		public function ScratchCardView() {
 			super();
 			initUI();
@@ -42,6 +45,7 @@ package com.gsn.games.scratchy.views {
 		
 		protected function initUI():void {
 			AssetManager.instance.buildPanel("scratch_panel", onPanelBuilt);
+			AssetManager.instance.buildPanel("notickets_panel",onNoTicketsLoaded);
 			var assetNameV:Vector.<String> = new Vector.<String>();
 			assetNameV.push(GameData.ICON_Cherry,GameData.ICON_7,GameData.ICON_Bell,GameData.ICON_Diamond,GameData.ICON_Ticket,GameData.ICON_Bonus);
 			assetNameV.push("ANIM_ScratchingParticles","ANIM_Scratching");
@@ -81,6 +85,43 @@ package com.gsn.games.scratchy.views {
 			}
 		}
 		
+		protected function onNoTicketsLoaded(loadedAssetsV:Vector.<AssetVO>):void {
+			for each (var vo:AssetVO in loadedAssetsV) {
+				switch (vo.name) {
+					case "PANEL_MoreTickets":
+						noTicketsPanel = vo.asset as Sprite;
+						break;
+					case "BTN_buymore":
+						var btn:MyActionButton = new MyActionButton(vo.asset as MovieClip);
+						btn.addEventListener(MouseEvent.CLICK, onMoreTickets);
+						break;
+					case "BTN_results":
+						var btn2:MyActionButton = new MyActionButton(vo.asset as MovieClip);
+						btn2.addEventListener(MouseEvent.CLICK, onResults);
+						break;
+				}
+			}
+		}
+		
+		protected function onResults(e:MouseEvent):void {
+			removeChild(noTicketsPanel);
+			dispatchEvent(new GameEvent(GameEvent.END_GAME));
+		}
+		
+		protected function onMoreTickets(e:MouseEvent):void {
+			removeChild(noTicketsPanel);
+			dispatchEvent(new GameEvent(GameEvent.TICKETS_ADDED));
+		}
+		
+		public function onTicketsGone():void {
+			showNoTickets = true;
+			if (lastScratched == ""){
+				//do the no ticket dialog
+				addChild(noTicketsPanel);
+				showNoTickets = false;
+			}
+		}
+		
 		protected function onScratch(event:MouseEvent):void {
 			trace("[SCRATCH] ");
 			//disable button
@@ -92,6 +133,11 @@ package com.gsn.games.scratchy.views {
 				ticketsLeft_tf.text = String(Number(ticketsLeft_tf.text)-1);
 				(tickets[tgt] as MyActionButton).enabled = false;
 			}
+		}
+		
+		public function addTickets(numTickets:int):void {
+			var diff:Number = numTickets - Number(ticketsLeft_tf.text);
+			ticketsLeft_tf.text = String(numTickets);
 		}
 		
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
@@ -149,6 +195,9 @@ package com.gsn.games.scratchy.views {
 			TweenLite.to((tickets[lastScratched] as MyActionButton).controlledMc, .3, {alpha:1});
 			(tickets[lastScratched] as MyActionButton).enabled = true;
 			lastScratched = "";
+			if (showNoTickets){
+				this.onTicketsGone();
+			}
 		}
 		
 		private function cloneObject(source:DisplayObject):MovieClip {

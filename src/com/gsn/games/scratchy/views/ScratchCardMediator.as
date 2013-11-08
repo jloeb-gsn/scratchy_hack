@@ -20,10 +20,13 @@ package com.gsn.games.scratchy.views {
 		
 		override public function onRegister():void {
 			addViewListener(GameEvent.SCRATCH_TICKET, onScratchedTicket);
+			addViewListener(GameEvent.END_GAME, dispatch);
+			addViewListener(GameEvent.TICKETS_ADDED, buyMoreTickets);
 			
 			addContextListener(ScratchResultEvent.RESULT_CHOSEN, onResults);
 			addContextListener(GameEvent.TICKETS_ADDED, onAddTickets);
 			addContextListener(GameEvent.START_GAME, onGameStart);
+			addContextListener(GameEvent.OUT_OF_TICKETS, onTicketsGone);
 			
 			super.onRegister();
 		}
@@ -34,6 +37,12 @@ package com.gsn.games.scratchy.views {
 		
 		protected function onGameStart(e:GameEvent):void {
 			view.start(model.totalTickets);
+		}
+		
+		protected function buyMoreTickets(e:GameEvent):void {
+			model.totalTickets += 5;
+			model.ticketsRemaining += 5;
+			onAddTickets(e);
 		}
 		
 		protected function onScratchedTicket(e:GameEvent):void {
@@ -48,9 +57,14 @@ package com.gsn.games.scratchy.views {
 			view.showScratchResult(icons, event.winningsRecieved, event.numBonusSymbols);
 		}
 		
+		protected function onTicketsGone(e:GameEvent):void {
+			view.onTicketsGone();
+		}
+		
 		protected function onAddTickets(event:GameEvent):void {
 			//update view that tickets are added
 			trace("--> ScratchcardMediator onAddTickets");
+			view.addTickets(model.ticketsRemaining);
 		}
 	}
 }

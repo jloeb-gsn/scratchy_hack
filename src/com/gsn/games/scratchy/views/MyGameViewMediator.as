@@ -49,6 +49,7 @@ package com.gsn.games.scratchy.views {
             // Listeners to the game
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
 			addViewListener(GameEvent.START_GAME, onGameStart);
+			addContextListener(GameEvent.END_GAME, onGameEnd);
 
             // Example usage of analytics tracking from the view
             addViewListener(GameAnalyticsEvent.TRACK, onTrackClick);
@@ -99,6 +100,10 @@ package com.gsn.games.scratchy.views {
 			model.ticketsRemaining = model.totalTickets = 10;//todo: make this UI driven when the UI works
 			model.bonusPoints = model.winningsSoFar = 0;
 			dispatch(event);
+		}
+		
+		protected function onGameEnd(event:GameEvent):void {
+			view.onGameEnd();
 		}
 
         /**

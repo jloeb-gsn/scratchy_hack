@@ -1,21 +1,18 @@
 package com.gsn.games.scratchy.views {
 
+    import com.greensock.TweenMax;
     import com.gsn.games.core.models.common.interfaces.IDisposable;
-    import com.gsn.games.core.models.languagemanager.LanguageManager;
+    import com.gsn.games.core.models.soundmanager.vo.SoundOptionsVO;
     import com.gsn.games.core.services.soundmanager.SoundManager;
     import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.scratchy.controllers.events.GameEvent;
     import com.gsn.games.scratchy.models.GameVO;
     import com.gsn.games.shared.assetsmanagement.AssetManager;
     import com.gsn.games.shared.assetsmanagement.AssetVO;
-    import com.gsn.games.shared.components.mcbutton.MCButton;
     
-    import flash.display.DisplayObject;
     import flash.display.MovieClip;
     import flash.display.Sprite;
-    import flash.events.Event;
     import flash.events.MouseEvent;
-    import flash.text.TextField;
 
     /**
      * Sample View
@@ -32,7 +29,7 @@ package com.gsn.games.scratchy.views {
         // References to important display objects
         protected var panel_wager:Sprite;
 		protected var panel_scratch:Sprite;
-		protected var panel_results:Sprite;
+		protected var panel_results:Sprite = new Sprite();;
 		
 		public var BET_PER_TICKET:int = 100;
 		public var NUMBER_OF_TICKETS:int = 10;
@@ -74,7 +71,7 @@ package com.gsn.games.scratchy.views {
 
             // Request additional assets. Add the name of each asset, at it appears in the assetsManifest.xml or gameConfig.xml
             var assetNameV:Vector.<String> = new Vector.<String>();
-            //assetNameV.push("SND_Aww");
+            assetNameV.push("SND_music");
            // assetNameV.push("SND_Beginpuzzle");
             //assetNameV.push("SND_Click02");
             //assetNameV.push("SND_Correctletter");
@@ -97,30 +94,7 @@ package com.gsn.games.scratchy.views {
                         // Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
                         var btn:MyActionButton = new MyActionButton(vo.asset as MovieClip);
 						btn.addEventListener(MouseEvent.CLICK, onStart);
-                      //  var buttonLabel:String = LanguageManager.instance.getMessage(instanceName);
-                      /*  switch (instanceName) {
-                            case "button_change":
-                             //   btnChange = new MyActionButton(vo.asset as MovieClip, buttonLabel);
-                             //   btnChange.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_reset":
-                               btnReset = new MyActionButton(vo.asset as MovieClip, buttonLabel);
-                                btnReset.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_restart":
-                                btnRestart = new MyActionButton(vo.asset as MovieClip, buttonLabel);
-                                btnRestart.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                            case "button_quit":
-                                btnQuit = new MyActionButton(vo.asset as MovieClip, buttonLabel);
-                                btnQuit.addEventListener(MouseEvent.CLICK, onMouseClick);
-                                break;
-                        }*/
-                        break;
-                    case "BTN_Close":
-                    //    btnClose = new MCButton(vo.asset as MovieClip);
-                   //     btnClose.addEventListener(MouseEvent.CLICK, onMouseClick);
-                        break;
+                       break;
 
                 }
             }
@@ -137,25 +111,10 @@ package com.gsn.games.scratchy.views {
             // Do something with them
             for each (var vo:AssetVO in loadedAssetsV) {
                 switch (vo.name) {
-                    case "SND_Aww":
+                    case "SND_music":
                         // Register the sound
-                        SoundManager.instance.registerSound(vo.sound, "aww", SoundManager.SOUND_TYPE_SFX);
-                        break;
-                    case "SND_Beginpuzzle":
-                        // Register the sound
-                        SoundManager.instance.registerSound(vo.sound, "begin", SoundManager.SOUND_TYPE_SFX);
-                        break;
-                    case "SND_Click02":
-                        // Register the sound
-                        SoundManager.instance.registerSound(vo.sound, "click", SoundManager.SOUND_TYPE_SFX);
-                        break;
-                    case "SND_Correctletter":
-                        // Register the sound
-                        SoundManager.instance.registerSound(vo.sound, "correct", SoundManager.SOUND_TYPE_SFX);
-                        break;
-                    case "SND_Prize03":
-                        // Register the sound
-                        SoundManager.instance.registerSound(vo.sound, "prize", SoundManager.SOUND_TYPE_SFX);
+                        SoundManager.instance.registerSound(vo.sound, "main_music", SoundManager.SOUND_TYPE_MUSIC);
+						SoundManager.instance.playSound("main_music", new SoundOptionsVO(.4,-1,0,false,SoundOptionsVO.PLAYBACK_TYPE_RESTART));
                         break;
                 }
             }
@@ -168,6 +127,18 @@ package com.gsn.games.scratchy.views {
 			dispatchEvent(new GameEvent(GameEvent.START_GAME));
 		}
 		
+		public function onGameEnd():void {
+			removeChild(panel_scratch);
+			addChild(panel_results);
+			dispatchEvent(new GameEvent(GameEvent.SHOW_RESULTS));
+			//temp:
+			TweenMax.delayedCall(3, onResultsEnd);
+		}
+		
+		public function onResultsEnd():void {
+			removeChild(panel_results);
+			addChild(panel_wager);
+		}
 
         //--------------------------------------------
         // PRIVATE
