@@ -4,7 +4,8 @@ package com.gsn.games.scratchy {
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.scratchy.controllers.commands.AddGameViewCommand;
     import com.gsn.games.scratchy.controllers.commands.GetModelUpdateCommand;
-    import com.gsn.games.scratchy.controllers.commands.ScratchCommand;
+	import com.gsn.games.scratchy.controllers.commands.PlaceBetCommand;
+	import com.gsn.games.scratchy.controllers.commands.ScratchCommand;
     import com.gsn.games.scratchy.controllers.events.GameEvent;
     import com.gsn.games.scratchy.models.GameModel;
     import com.gsn.games.scratchy.services.GameAnalyticsHelper;
@@ -58,8 +59,9 @@ package com.gsn.games.scratchy {
 
             // Example of listening for updates to our model
             commandMap.mapEvent(GameEvent.UPDATE_MODEL, GetModelUpdateCommand, GameEvent);
-
+			
 			commandMap.mapEvent(GameEvent.SCRATCH_TICKET, ScratchCommand, GameEvent);
+			commandMap.mapEvent(GameEvent.PLACE_BET, PlaceBetCommand, GameEvent);
 
             // After you've mapped your items, call the super to start up the rest of the framework. This is done at the end so that your functions are ready when the framework starts
             super.startup();

@@ -38,6 +38,10 @@ package com.gsn.games.scratchy.views {
 		protected var numTickets_tf:TextField;
 		protected var betPerTicket_tf:TextField;
 		protected var totalBet_tf:TextField;
+		
+		private var _numTickets:int;
+		private var _betPerTicket:int;
+		private var _totalBet:int;
 
 //		protected var hud;
         //--------------------------------------------
@@ -50,15 +54,27 @@ package com.gsn.games.scratchy.views {
         }
 		
 		public function set numTickets(val:int):void {
-			numTickets_tf.text = val.toString();
+			_numTickets = val;
+			
+			if (numTickets_tf) {
+				numTickets_tf.text = val.toString();
+			}
 		}
 		
 		public function set betPerTicket(val:int):void {
-			betPerTicket_tf.text = val.toString();
+			_betPerTicket = val;
+			
+			if (betPerTicket_tf) {
+				betPerTicket_tf.text = val.toString();
+			}
 		}
 		
 		public function set totalBet(val:int):void {
-			totalBet_tf.text = val.toString();
+			_totalBet = val;
+			
+			if (totalBet_tf) {
+				totalBet_tf.text = val.toString();
+			}
 		}
 		
 		public function set incrEnabled(val:Boolean):void {
@@ -71,6 +87,11 @@ package com.gsn.games.scratchy.views {
 
         public function updateFromModel(vo:GameVO):void {
 
+		}
+		
+		public function startScratching():void {
+			removeChild(panel_wager);
+			addChild(panel_scratch);
 		}
 
         /**
@@ -117,6 +138,10 @@ package com.gsn.games.scratchy.views {
 						numTickets_tf = panel_wager.getChildByName("TF_numTickets") as TextField;
 						betPerTicket_tf = panel_wager.getChildByName("TF_betPerTicket") as TextField;
 						totalBet_tf = panel_wager.getChildByName("TF_totalBet") as TextField;
+						
+						numTickets = _numTickets;
+						betPerTicket = _betPerTicket;
+						totalBet = _totalBet;
                         break;
 					case "BTN_Start":
 						// Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
@@ -160,9 +185,7 @@ package com.gsn.games.scratchy.views {
         }
 
         protected function onStart(event:MouseEvent):void {
-			removeChild(panel_wager);
-			addChild(panel_scratch);
-			dispatchEvent(new GameEvent(GameEvent.START_GAME));
+			dispatchEvent(new GameEvent(GameEvent.PLACE_BET));
 			SoundManager.instance.playSound("SND_gamestart");
 		}
 		

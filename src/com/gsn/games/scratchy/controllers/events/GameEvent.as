@@ -29,6 +29,7 @@ package com.gsn.games.scratchy.controllers.events {
 		
 		public static const INCR_BET:String = "INCR_BET";
 		public static const DECR_BET:String = "DECR_BET";
+		public static const PLACE_BET:String = "PLACE_BET";
 		
 
         // Optional
