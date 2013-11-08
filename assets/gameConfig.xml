@@ -22,7 +22,7 @@
     </panelLayout>
     <panelLayout name="scratch_panel" panelname="PANEL_Scratch">
         <element placeholdername="PROP_Background" assetname="GFX_Background" instancename="background"/>
-        <element placeholdername="PROP_Tokens" assetname="GFX_BLACK_STRIP" instancename="tokenBalance"/>
+        <element placeholdername="PROP_meter" assetname="GFX_Meter" instancename="meter" />
         <element placeholdername="PROP_Ticket0" assetname="BTN_Ticket" instancename="ticket_0"/>
         <element placeholdername="PROP_Ticket1" assetname="BTN_Ticket" instancename="ticket_1"/>
         <element placeholdername="PROP_Ticket2" assetname="BTN_Ticket" instancename="ticket_2"/>

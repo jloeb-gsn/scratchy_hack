@@ -1,6 +1,6 @@
 <data>
   <info>
-    <compiledate>Thu Nov 07 2013 21:20:10 GMT-0800 (PST)</compiledate>
+    <compiledate>Fri Nov 08 2013 08:45:02 GMT-0800 (PST)</compiledate>
     <compileversion>AssetBundler_v2.0.5.jsfl</compileversion>
     <compileroot>bundle_assets</compileroot>
   </info>
@@ -192,11 +192,9 @@
     </element>
     <element id="PANEL_Scratch" type="PANEL">
       <validations>
-        <validation width="725.3" height="480" regX="0" regY="0" itemType="movie clip" classname="PANEL_Scratch"/>
+        <validation width="773.25" height="537.1" regX="-30.30000000000001" regY="0" itemType="movie clip" classname="PANEL_Scratch"/>
       </validations>
       <placeholders>
-        <placeholder name="PROP_Background"/>
-        <placeholder name="PROP_Tokens"/>
         <placeholder name="PROP_Ticket1"/>
         <placeholder name="PROP_Ticket2"/>
         <placeholder name="PROP_Ticket3"/>
@@ -205,6 +203,8 @@
         <placeholder name="PROP_Ticket5"/>
         <placeholder name="TF_tokenswon"/>
         <placeholder name="TF_ticketsleft"/>
+        <placeholder name="PROP_meter"/>
+        <placeholder name="PROP_Background"/>
       </placeholders>
     </element>
     <element id="PANEL_Wager" type="PANEL">

@@ -21,6 +21,8 @@ package com.gsn.games.scratchy.views {
 		protected var noTicketsPanel:Sprite;
 		protected var tickets:Dictionary = new Dictionary();
 		
+		protected var meter:BonusPanelView;
+		
 		protected var tokensWon_tf:TextField;
 		protected var ticketsLeft_tf:TextField;
 		
@@ -81,6 +83,9 @@ package com.gsn.games.scratchy.views {
 							var mc:MovieClip = ((tickets[instanceName] as MyActionButton).controlledMc.getChildByName("symbol_"+i) as MovieClip);
 							mc.visible = false;
 						}
+						break;
+					case "GFX_Meter":
+						meter = new BonusPanelView(vo.asset as MovieClip);
 						break;
 				}
 			}
@@ -152,6 +157,7 @@ package com.gsn.games.scratchy.views {
 				SoundManager.instance.playSound("SND_cardwin");
 			}
 			
+			meter.addBonusStickers(numBonuses);
 			trace("### tokens displayed so far: "+total);
 			
 			var ticket:MyActionButton = (tickets[lastScratched] as MyActionButton);

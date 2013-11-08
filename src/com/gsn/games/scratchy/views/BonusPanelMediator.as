@@ -25,7 +25,7 @@ package com.gsn.games.scratchy.views {
 		}
 		
 		protected function onBonusIncrease(e:GameEvent):void {
-			
+			view.addBonusStickers(model.bonusPoints);
 		}
 	}
 }
