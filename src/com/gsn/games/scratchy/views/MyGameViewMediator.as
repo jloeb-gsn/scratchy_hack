@@ -45,10 +45,12 @@ package com.gsn.games.scratchy.views {
             // Listeners to the view - re-dispatch automatically to game 
             // Note: views do not need to use mediators to talk to each other
             addViewListener(GameEvent.UPDATE_MODEL, dispatch);
+			addViewListener(GameEvent.START_GAME, onGameStart);
+			addViewListener(GameEvent.INCR_BET, onIncrBet);
+			addViewListener(GameEvent.DECR_BET, onDecrBet);
 
             // Listeners to the game
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
-			addViewListener(GameEvent.START_GAME, onGameStart);
 			addContextListener(GameEvent.END_GAME, onGameEnd);
 
             // Example usage of analytics tracking from the view
@@ -94,12 +96,39 @@ package com.gsn.games.scratchy.views {
         }
 		
 		protected function onGameStart(event:GameEvent):void {
-			model.betPerTicket = view.BET_PER_TICKET;
-			model.totalTickets = view.NUMBER_OF_TICKETS;
+			view.numTickets = model.totalTickets;
+			updateBetAmount();
+			
 			model.currentState = GameEvent.GAME_STATE_PLAY;
-			model.ticketsRemaining = model.totalTickets = 10;//todo: make this UI driven when the UI works
+			model.ticketsRemaining = model.totalTickets;
 			model.bonusPoints = model.winningsSoFar = 0;
 			dispatch(event);
+		}
+		
+		protected function onIncrBet(evt:GameEvent):void {
+			model.betIndex++;
+			if (model.betIndex == GameModel.BET_AMOUNTS.length - 1) {
+				view.incrEnabled = false;
+			}
+			
+			view.decrEnabled = true;
+			updateBetAmount();
+		}
+		
+		protected function onDecrBet(evt:GameEvent):void {
+			model.betIndex--;
+			if (model.betIndex == 0) {
+				view.decrEnabled = false;
+			}
+			
+			view.incrEnabled = true;
+			updateBetAmount();
+		}
+		
+		protected function updateBetAmount():void {
+			const betPerTicket:int = GameModel.BET_AMOUNTS[model.betIndex];
+			view.betPerTicket = betPerTicket;
+			view.totalBet = model.totalTickets * betPerTicket;
 		}
 		
 		protected function onGameEnd(event:GameEvent):void {
