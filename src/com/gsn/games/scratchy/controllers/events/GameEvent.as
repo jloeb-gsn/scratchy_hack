@@ -27,6 +27,10 @@ package com.gsn.games.scratchy.controllers.events {
 		public static const GAME_STATE_PLAY:String = "GAME_STATE_PLAY";
 		public static const GAME_STATE_RESULTS:String = "GAME_STATE_RESULTS";
 		
+		public static const INCR_BET:String = "INCR_BET";
+		public static const DECR_BET:String = "DECR_BET";
+		public static const PLACE_BET:String = "PLACE_BET";
+		
 
         // Optional
         public var vo:GameVO;

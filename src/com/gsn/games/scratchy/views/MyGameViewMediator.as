@@ -1,8 +1,10 @@
 package com.gsn.games.scratchy.views {
 
+    import com.gsn.games.core.controllers.events.ShowPurchaseDialogEvent;
     import com.gsn.games.core.controllers.events.StartupEvent;
     import com.gsn.games.core.models.gameconfigmanager.IGameConfigManager;
     import com.gsn.games.core.models.languagemanager.ILanguageManager;
+    import com.gsn.games.core.models.playermanager.IPlayerManager;
     import com.gsn.games.scratchy.controllers.events.GameAnalyticsEvent;
     import com.gsn.games.scratchy.controllers.events.GameEvent;
     import com.gsn.games.scratchy.models.GameModel;
@@ -28,6 +30,8 @@ package com.gsn.games.scratchy.views {
         public var gameConfigManager:IGameConfigManager;
 		[Inject]
 		public var model:GameModel;
+		[Inject]
+		public var playerManager:IPlayerManager;
 
         // PROPERTIES
 
@@ -41,15 +45,20 @@ package com.gsn.games.scratchy.views {
          * Fired as soon as the mapped View is added to stage.
          * */
         override public function onRegister():void {
+			view.numTickets = model.totalTickets;
+			updateBetAmount();
 
             // Listeners to the view - re-dispatch automatically to game 
             // Note: views do not need to use mediators to talk to each other
             addViewListener(GameEvent.UPDATE_MODEL, dispatch);
+			addViewListener(GameEvent.PLACE_BET, onPlaceBet);
+			addViewListener(GameEvent.INCR_BET, onIncrBet);
+			addViewListener(GameEvent.DECR_BET, onDecrBet);
 
             // Listeners to the game
             addContextListener(GameEvent.GAME_MODEL_UPDATED, onGameModelUpdated);
-			addViewListener(GameEvent.START_GAME, onGameStart);
 			addContextListener(GameEvent.END_GAME, onGameEnd);
+			addContextListener(GameEvent.START_GAME, onGameStart);
 
             // Example usage of analytics tracking from the view
             addViewListener(GameAnalyticsEvent.TRACK, onTrackClick);
@@ -93,13 +102,47 @@ package com.gsn.games.scratchy.views {
             gameAnalytics.trackPopupCount();
         }
 		
-		protected function onGameStart(event:GameEvent):void {
-			model.betPerTicket = view.BET_PER_TICKET;
-			model.totalTickets = view.NUMBER_OF_TICKETS;
-			model.currentState = GameEvent.GAME_STATE_PLAY;
-			model.ticketsRemaining = model.totalTickets = 10;//todo: make this UI driven when the UI works
-			model.bonusPoints = model.winningsSoFar = 0;
-			dispatch(event);
+		protected function onPlaceBet(event:GameEvent):void {
+			var betPerTicket:int = GameModel.BET_AMOUNTS[model.betIndex];
+			var totalBet:int = model.totalTickets * betPerTicket;
+			
+			if(totalBet <= playerManager.tokens) {
+				dispatch(event);
+			} else {
+				var showDialogEvent:ShowPurchaseDialogEvent = new ShowPurchaseDialogEvent(ShowPurchaseDialogEvent.SHOW_PURCHASE_DIALOG);
+				showDialogEvent.suggestedMinimum = totalBet;
+				dispatch(showDialogEvent);
+			}
+		}
+		
+		protected function onIncrBet(evt:GameEvent):void {
+			model.betIndex++;
+			if (model.betIndex == GameModel.BET_AMOUNTS.length - 1) {
+				view.incrEnabled = false;
+			}
+			
+			view.decrEnabled = true;
+			updateBetAmount();
+		}
+		
+		protected function onDecrBet(evt:GameEvent):void {
+			model.betIndex--;
+			if (model.betIndex == 0) {
+				view.decrEnabled = false;
+			}
+			
+			view.incrEnabled = true;
+			updateBetAmount();
+		}
+		
+		protected function updateBetAmount():void {
+			const betPerTicket:int = GameModel.BET_AMOUNTS[model.betIndex];
+			view.betPerTicket = betPerTicket;
+			view.totalBet = model.totalTickets * betPerTicket;
+		}
+		
+		protected function onGameStart(evt:GameEvent):void {
+			view.startScratching();
 		}
 		
 		protected function onGameEnd(event:GameEvent):void {

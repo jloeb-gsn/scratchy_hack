@@ -13,6 +13,7 @@ package com.gsn.games.scratchy.views {
     import flash.display.MovieClip;
     import flash.display.Sprite;
     import flash.events.MouseEvent;
+    import flash.text.TextField;
 
     /**
      * Sample View
@@ -29,10 +30,18 @@ package com.gsn.games.scratchy.views {
         // References to important display objects
         protected var panel_wager:Sprite;
 		protected var panel_scratch:Sprite;
-		protected var panel_results:Sprite = new Sprite();;
+		protected var panel_results:Sprite = new Sprite();
 		
-		public var BET_PER_TICKET:int = 100;
-		public var NUMBER_OF_TICKETS:int = 10;
+		protected var btn_incr:MyActionButton;
+		protected var btn_decr:MyActionButton;
+		
+		protected var numTickets_tf:TextField;
+		protected var betPerTicket_tf:TextField;
+		protected var totalBet_tf:TextField;
+		
+		private var _numTickets:int;
+		private var _betPerTicket:int;
+		private var _totalBet:int;
 
 //		protected var hud;
         //--------------------------------------------
@@ -43,9 +52,46 @@ package com.gsn.games.scratchy.views {
             super();
             initUI();
         }
+		
+		public function set numTickets(val:int):void {
+			_numTickets = val;
+			
+			if (numTickets_tf) {
+				numTickets_tf.text = val.toString();
+			}
+		}
+		
+		public function set betPerTicket(val:int):void {
+			_betPerTicket = val;
+			
+			if (betPerTicket_tf) {
+				betPerTicket_tf.text = val.toString();
+			}
+		}
+		
+		public function set totalBet(val:int):void {
+			_totalBet = val;
+			
+			if (totalBet_tf) {
+				totalBet_tf.text = val.toString();
+			}
+		}
+		
+		public function set incrEnabled(val:Boolean):void {
+			btn_incr.enabled = val;
+		}
+		
+		public function set decrEnabled(val:Boolean):void {
+			btn_decr.enabled = val;
+		}
 
         public function updateFromModel(vo:GameVO):void {
 
+		}
+		
+		public function startScratching():void {
+			removeChild(panel_wager);
+			addChild(panel_scratch);
 		}
 
         /**
@@ -81,21 +127,35 @@ package com.gsn.games.scratchy.views {
         }
 
         private function onMainPanel1Complete(loadedAssetsV:Vector.<AssetVO>):void {
-
+			
             for each (var vo:AssetVO in loadedAssetsV) {
 
                 switch (vo.name) {
                     case "PANEL_Wager":
 						panel_wager = vo.asset as Sprite;
                         addChild(panel_wager);
-                       // txtOutput = pnlMain.getChildByName("PROP_Output") as TextField;
+						
+						numTickets_tf = panel_wager.getChildByName("TF_numTickets") as TextField;
+						betPerTicket_tf = panel_wager.getChildByName("TF_betPerTicket") as TextField;
+						totalBet_tf = panel_wager.getChildByName("TF_totalBet") as TextField;
+						
+						numTickets = _numTickets;
+						betPerTicket = _betPerTicket;
+						totalBet = _totalBet;
                         break;
-                    case "BTN_Start":
-                        // Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
-                        var btn:MyActionButton = new MyActionButton(vo.asset as MovieClip);
+					case "BTN_Start":
+						// Because my layout uses the same button asset for the buttons, differentiate by the instance name assigned to each
+						var btn:MyActionButton = new MyActionButton(vo.asset as MovieClip);
 						btn.addEventListener(MouseEvent.CLICK, onStart);
-                       break;
-
+						break;
+					case "BTN_Add":
+						btn = new MyActionButton(vo.asset as MovieClip);
+						btn.addEventListener(MouseEvent.CLICK, onIncrBet);
+						break;
+					case "BTN_Subtract":
+						btn = new MyActionButton(vo.asset as MovieClip);
+						btn.addEventListener(MouseEvent.CLICK, onDecrBet);
+						break;
                 }
             }
         }
@@ -125,10 +185,16 @@ package com.gsn.games.scratchy.views {
         }
 
         protected function onStart(event:MouseEvent):void {
-			removeChild(panel_wager);
-			addChild(panel_scratch);
-			dispatchEvent(new GameEvent(GameEvent.START_GAME));
+			dispatchEvent(new GameEvent(GameEvent.PLACE_BET));
 			SoundManager.instance.playSound("SND_gamestart");
+		}
+		
+		protected function onIncrBet(evt:MouseEvent):void {
+			dispatchEvent(new GameEvent(GameEvent.INCR_BET));
+		}
+		
+		protected function onDecrBet(evt:MouseEvent):void {
+			dispatchEvent(new GameEvent(GameEvent.DECR_BET));
 		}
 		
 		public function onGameEnd():void {

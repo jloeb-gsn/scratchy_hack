@@ -10,6 +10,8 @@ package com.gsn.games.scratchy.models
     * */
     public class GameModel extends Actor {
         
+		public static const BET_AMOUNTS:Vector.<int> = new <int>[10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000];
+		
         // Some attributes
         public var vo:GameVO;
 		
@@ -33,8 +35,8 @@ package com.gsn.games.scratchy.models
 		public var currentState:String = GameEvent.GAME_STATE_WAGER;
 		
 		//wager state variables needed
-		public var betPerTicket:int;
-		public var totalTickets:int;
+		public var betIndex:int = 3;
+		public var totalTickets:int = 25;
 		
 		// scratching state variables needed
 		public var ticketsRemaining:int;
