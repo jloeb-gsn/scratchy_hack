@@ -1,6 +1,6 @@
 <data>
   <info>
-    <compiledate>Thu Nov 07 2013 16:29:45 GMT-0800 (PST)</compiledate>
+    <compiledate>Thu Nov 07 2013 17:11:07 GMT-0800 (PST)</compiledate>
     <compileversion>AssetBundler_v2.0.5.jsfl</compileversion>
     <compileroot>bundle_assets</compileroot>
   </info>
@@ -113,6 +113,16 @@
   <!-- START "Main game" bundle -->
   <SWFLoader url="Main game.swf" name="Main game" load="true" postLoad="false"/>
   <library bundle="Main game">
+    <element id="ANIM_Scratching" type="ANIM">
+      <validations>
+        <validation width="31.05" height="20.45" regX="-33.3" regY="-37.05" itemType="movie clip" classname="ANIM_Scratching"/>
+      </validations>
+    </element>
+    <element id="ANIM_ScratchingParticles" type="ANIM">
+      <validations>
+        <validation width="6.5" height="6.55" regX="35.3" regY="25.8" itemType="movie clip" classname="ANIM_ScratchingParticles"/>
+      </validations>
+    </element>
     <element id="ANIM_ticket" type="ANIM">
       <validations>
         <validation width="294.2" height="142.2" regX="-8" regY="142.9" itemType="movie clip" classname="ANIM_ticket"/>

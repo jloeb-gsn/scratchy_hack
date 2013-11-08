@@ -44,6 +44,7 @@ package com.gsn.games.scratchy.views {
 			AssetManager.instance.buildPanel("scratch_panel", onPanelBuilt);
 			var assetNameV:Vector.<String> = new Vector.<String>();
 			assetNameV.push(GameData.ICON_Cherry,GameData.ICON_7,GameData.ICON_Bell,GameData.ICON_Diamond,GameData.ICON_Ticket,GameData.ICON_Bonus);
+			assetNameV.push("ANIM_ScratchingParticles","ANIM_Scratching");
 			AssetManager.instance.bulkRequest(assetNameV,onAssets);
 		}
 		
@@ -88,9 +89,9 @@ package com.gsn.games.scratchy.views {
 				trace("Scratch!! "+tgt);
 				lastScratched = tgt;
 				dispatchEvent(new GameEvent(GameEvent.SCRATCH_TICKET));
+				ticketsLeft_tf.text = String(Number(ticketsLeft_tf.text)-1);
+				(tickets[tgt] as MyActionButton).enabled = false;
 			}
-			ticketsLeft_tf.text = String(Number(ticketsLeft_tf.text)-1);
-			(tickets[tgt] as MyActionButton).enabled = false;
 		}
 		
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
@@ -103,6 +104,7 @@ package com.gsn.games.scratchy.views {
 			for (var i:int=0; i < 3; i++){
 				var mc:MovieClip = (ticket.controlledMc.getChildByName("symbol_"+i) as MovieClip);
 				mc.visible = true;
+				mc.alpha = 0;
 				//add icon symbol
 				var newClip:MovieClip = cloneObject(this.iconsLoaded[icons[i]]);
 				mc.addChild(newClip);
@@ -116,9 +118,14 @@ package com.gsn.games.scratchy.views {
 						numBonuses--;
 					}
 				}
+				TweenMax.delayedCall(.2*i+.2,scratchTicketAnim,[mc])
 			}
 			
 			TweenMax.delayedCall(1.2, showNewTicket);
+		}
+		
+		protected function scratchTicketAnim(mc:MovieClip):void {
+			TweenLite.to(mc,.2,{alpha:1});
 		}
 		
 		protected function showNewTicket():void {
