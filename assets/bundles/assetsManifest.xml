@@ -1,6 +1,6 @@
 <data>
   <info>
-    <compiledate>Fri Nov 08 2013 08:45:02 GMT-0800 (PST)</compiledate>
+    <compiledate>Fri Nov 08 2013 11:34:34 GMT-0800 (PST)</compiledate>
     <compileversion>AssetBundler_v2.0.5.jsfl</compileversion>
     <compileroot>bundle_assets</compileroot>
   </info>
@@ -90,6 +90,11 @@
   <!-- START "Main game" bundle -->
   <SWFLoader url="Main game.swf" name="Main game" load="true" postLoad="false"/>
   <library bundle="Main game">
+    <element id="ANIM_prize" type="ANIM">
+      <validations>
+        <validation width="352.95" height="150.95" regX="-110.94999999999999" regY="0" itemType="movie clip" classname="ANIM_prize"/>
+      </validations>
+    </element>
     <element id="ANIM_Scratching" type="ANIM">
       <validations>
         <validation width="31.05" height="20.45" regX="-33.3" regY="-37.05" itemType="movie clip" classname="ANIM_Scratching"/>
@@ -190,6 +195,16 @@
         <placeholder name="PROP_results"/>
       </placeholders>
     </element>
+    <element id="PANEL_Results" type="PANEL">
+      <validations>
+        <validation width="848.45" height="857.8" regX="-168" regY="-197.95" itemType="movie clip" classname="PANEL_Results"/>
+      </validations>
+      <placeholders>
+        <placeholder name="PROP_tickets"/>
+        <placeholder name="PROP_bet"/>
+        <placeholder name="PROP_total"/>
+      </placeholders>
+    </element>
     <element id="PANEL_Scratch" type="PANEL">
       <validations>
         <validation width="773.25" height="537.1" regX="-30.30000000000001" regY="0" itemType="movie clip" classname="PANEL_Scratch"/>
@@ -209,14 +224,14 @@
     </element>
     <element id="PANEL_Wager" type="PANEL">
       <validations>
-        <validation warning="Symbol 'GFX_FTUEPanel' set to export for ActionScript"/>
-        <validation warning="Symbol 'BTN_Start' set to export for ActionScript"/>
-        <validation warning="Symbol 'BTN_Add' set to export for ActionScript"/>
-        <validation warning="Symbol 'BTN_Subtract' set to export for ActionScript"/>
-        <validation warning="Symbol 'GFX_WagerTitle' set to export for ActionScript"/>
-        <validation width="700" height="600" regX="0" regY="0" itemType="movie clip" classname="PANEL_Wager"/>
+        <validation width="760" height="570" regX="0" regY="0" itemType="movie clip" classname="PANEL_Wager"/>
       </validations>
       <placeholders>
+        <placeholder name="PROP_Subtract"/>
+        <placeholder name="PROP_Add"/>
+        <placeholder name="TF_numTickets"/>
+        <placeholder name="TF_totalBet"/>
+        <placeholder name="TF_betPerTicket"/>
         <placeholder name="PROP_Background"/>
         <placeholder name="PROP_WagerTitle"/>
         <placeholder name="PROP_Bet"/>
@@ -266,46 +281,24 @@
   <!-- START "Results" bundle -->
   <SWFLoader url="Results.swf" name="Results" load="true" postLoad="false"/>
   <library bundle="Results">
-    <element id="next" type="">
+    <element id="GFX_results" type="GFX">
       <validations>
-        <validation width="213" height="76" regX="0" regY="0" itemType="bitmap" classname="next"/>
-        <validation warning="Images should be of type GFX"/>
+        <validation width="833.55" height="767.95" regX="-55.55000000000001" regY="-112.64999999999998" itemType="movie clip" classname="GFX_results"/>
       </validations>
     </element>
-    <element id="Q4" type="">
+    <element id="GFX_Totalbet" type="GFX">
       <validations>
-        <validation width="760" height="570" regX="0" regY="0" itemType="bitmap" classname="Q4"/>
-        <validation warning="Images should be of type GFX"/>
+        <validation width="364.95" height="135" regX="0" regY="0" itemType="movie clip" classname="GFX_Totalbet"/>
       </validations>
     </element>
-    <element id="results" type="">
+    <element id="GFX_TotalWon" type="GFX">
       <validations>
-        <validation width="204" height="97" regX="0" regY="0" itemType="bitmap" classname="results"/>
-        <validation warning="Images should be of type GFX"/>
+        <validation width="364.95" height="112" regX="0" regY="0" itemType="movie clip" classname="GFX_TotalWon"/>
       </validations>
     </element>
-    <element id="retry" type="">
+    <element id="GFX_Winningtickets" type="GFX">
       <validations>
-        <validation width="213" height="76" regX="0" regY="0" itemType="bitmap" classname="retry"/>
-        <validation warning="Images should be of type GFX"/>
-      </validations>
-    </element>
-    <element id="total_bet" type="">
-      <validations>
-        <validation width="397" height="75" regX="0" regY="0" itemType="bitmap" classname="total_bet"/>
-        <validation warning="Images should be of type GFX"/>
-      </validations>
-    </element>
-    <element id="winning amount" type="">
-      <validations>
-        <validation width="396" height="75" regX="0" regY="0" itemType="bitmap" classname="winning amount"/>
-        <validation warning="Images should be of type GFX"/>
-      </validations>
-    </element>
-    <element id="winning_tickets" type="">
-      <validations>
-        <validation width="396" height="63" regX="0" regY="0" itemType="bitmap" classname="winning_tickets"/>
-        <validation warning="Images should be of type GFX"/>
+        <validation width="238.5" height="210" regX="0" regY="0" itemType="movie clip" classname="GFX_Winningtickets"/>
       </validations>
     </element>
   </library>
@@ -354,34 +347,38 @@
   <!-- START "Wager" bundle -->
   <SWFLoader url="Wager.swf" name="Wager" load="true" postLoad="false"/>
   <library bundle="Wager">
+    <element id="BTN_Add" type="BTN">
+      <validations>
+        <validation width="27.75" height="27.75" regX="-13.85" regY="-13.85" itemType="movie clip" classname="BTN_Add"/>
+      </validations>
+    </element>
     <element id="BTN_Start" type="BTN">
       <validations>
         <validation width="213.7" height="70.6" regX="0" regY="0" itemType="movie clip" classname="BTN_Start"/>
       </validations>
     </element>
-    <element id="GFX_betpertickets" type="GFX">
+    <element id="BTN_Subtract" type="BTN">
       <validations>
-        <validation width="309" height="106" regX="0" regY="0" itemType="bitmap" classname="GFX_betpertickets"/>
+        <validation width="27.75" height="27.75" regX="-13.85" regY="-13.85" itemType="movie clip" classname="BTN_Subtract"/>
       </validations>
     </element>
-    <element id="GFX_NumberofTickets" type="GFX">
+    <element id="GFX_Bet" type="GFX">
       <validations>
-        <validation width="310" height="106" regX="0" regY="0" itemType="bitmap" classname="GFX_NumberofTickets"/>
+        <validation width="320.45" height="108.05" regX="0" regY="0" itemType="movie clip" classname="GFX_Bet"/>
       </validations>
     </element>
-    <element id="GFX_total_bet" type="GFX">
+    <element id="GFX_Tickets" type="GFX">
       <validations>
-        <validation width="312" height="106" regX="0" regY="0" itemType="bitmap" classname="GFX_total_bet"/>
+        <validation width="320.45" height="108.05" regX="0" regY="0" itemType="movie clip" classname="GFX_Tickets"/>
       </validations>
     </element>
-    <element id="GFX_wagerbg" type="GFX">
+    <element id="GFX_Total" type="GFX">
       <validations>
-        <validation width="760" height="570" regX="0" regY="0" itemType="bitmap" classname="GFX_wagerbg"/>
+        <validation width="320.45" height="108.05" regX="0" regY="0" itemType="movie clip" classname="GFX_Total"/>
       </validations>
     </element>
     <element id="GFX_WagerTitle" type="GFX">
       <validations>
-        <validation warning="Symbol 'GFX_FTUEPanel' set to export for ActionScript"/>
         <validation width="422.45" height="108.45" regX="0" regY="0" itemType="movie clip" classname="GFX_WagerTitle"/>
       </validations>
     </element>

@@ -29,8 +29,8 @@ package com.gsn.games.scratchy.views {
         //--------------------------------------------
         // References to important display objects
         protected var panel_wager:Sprite;
-		protected var panel_scratch:Sprite;
-		protected var panel_results:Sprite = new Sprite();
+		protected var panel_scratch:ScratchCardView;
+		protected var panel_results:ResultsView;
 		
 		protected var btn_incr:MyActionButton;
 		protected var btn_decr:MyActionButton;
@@ -92,6 +92,7 @@ package com.gsn.games.scratchy.views {
 		public function startScratching():void {
 			removeChild(panel_wager);
 			addChild(panel_scratch);
+			panel_scratch.start(_numTickets);
 		}
 
         /**
@@ -114,6 +115,7 @@ package com.gsn.games.scratchy.views {
             // Request a panel build
             AssetManager.instance.buildPanel("wager_panel", onMainPanel1Complete);
 			panel_scratch = new ScratchCardView();
+			AssetManager.instance.buildPanel("results_panel", onResultsPanel);
 
             // Request additional assets. Add the name of each asset, at it appears in the assetsManifest.xml or gameConfig.xml
             var assetNameV:Vector.<String> = new Vector.<String>();
@@ -149,16 +151,38 @@ package com.gsn.games.scratchy.views {
 						btn.addEventListener(MouseEvent.CLICK, onStart);
 						break;
 					case "BTN_Add":
-						btn = new MyActionButton(vo.asset as MovieClip);
-						btn.addEventListener(MouseEvent.CLICK, onIncrBet);
+						this.btn_incr = new MyActionButton(vo.asset as MovieClip);
+						this.btn_incr.addEventListener(MouseEvent.CLICK, onIncrBet);
 						break;
 					case "BTN_Subtract":
-						btn = new MyActionButton(vo.asset as MovieClip);
-						btn.addEventListener(MouseEvent.CLICK, onDecrBet);
+						this.btn_decr = new MyActionButton(vo.asset as MovieClip);
+						this.btn_decr.addEventListener(MouseEvent.CLICK, onDecrBet);
 						break;
                 }
             }
         }
+		
+		protected function onResultsPanel(loadedAssetsV:Vector.<AssetVO>):void {
+			var panel:MovieClip; var tix:TextField; var bet:TextField; var won:TextField;
+			
+			for each (var vo:AssetVO in loadedAssetsV) {
+				switch (vo.name) {
+					case "PANEL_Results":
+						panel = vo.asset as MovieClip;
+						break;
+					case "GFX_Winningtickets":
+						tix = (vo.asset as MovieClip).getChildByName("TF_amount") as TextField;
+						break;
+					case "GFX_Totalbet":
+						bet = (vo.asset as MovieClip).getChildByName("TF_amount") as TextField;
+						break;
+					case "GFX_TotalWon":
+						won = (vo.asset as MovieClip).getChildByName("TF_amount") as TextField;
+						break;
+				}
+			}
+			panel_results = new ResultsView(panel, tix, bet, won);
+		}
 
         /**
          * Callback triggered when all UI elements are received from Asset Manager.
@@ -197,10 +221,10 @@ package com.gsn.games.scratchy.views {
 			dispatchEvent(new GameEvent(GameEvent.DECR_BET));
 		}
 		
-		public function onGameEnd():void {
+		public function onGameEnd(tickets:int, bet:int, won:int):void {
 			removeChild(panel_scratch);
 			addChild(panel_results);
-			dispatchEvent(new GameEvent(GameEvent.SHOW_RESULTS));
+			panel_results.showResults(tickets, bet, won);
 			SoundManager.instance.playSound("SND_results");
 			//temp:
 			TweenMax.delayedCall(8, onResultsEnd);

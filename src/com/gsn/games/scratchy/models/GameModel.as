@@ -43,8 +43,16 @@ package com.gsn.games.scratchy.models
 		public var bonusPoints:int;
 		public var winningsSoFar:int = 0;
 		
+		public function get betPerTicket():int {
+			return  BET_AMOUNTS[betIndex];
+		}
+		
 		public function get bonusLevel():int {
 			return int(Math.floor(bonusPoints/5))+1;
+		}
+		
+		public function get totalBet():int {
+			return BET_AMOUNTS[betIndex] * totalTickets;
 		}
     }
 }

@@ -51,7 +51,7 @@ package com.gsn.games.scratchy.views {
 			AssetManager.instance.buildPanel("notickets_panel",onNoTicketsLoaded);
 			var assetNameV:Vector.<String> = new Vector.<String>();
 			assetNameV.push(GameData.ICON_Cherry,GameData.ICON_7,GameData.ICON_Bell,GameData.ICON_Diamond,GameData.ICON_Ticket,GameData.ICON_Bonus);
-			assetNameV.push("ANIM_ScratchingParticles","ANIM_Scratching");
+			assetNameV.push("ANIM_prize","ANIM_Scratching");
 			AssetManager.instance.bulkRequest(assetNameV,onAssets);
 		}
 		
@@ -143,8 +143,7 @@ package com.gsn.games.scratchy.views {
 		}
 		
 		public function addTickets(numTickets:int):void {
-			var diff:Number = numTickets - Number(ticketsLeft_tf.text);
-			ticketsLeft_tf.text = String(numTickets);
+			ticketsLeft_tf.text = String(numTickets+1);
 		}
 		
 		public function showScratchResult(icons:Array, winnings:Number, numBonuses:int):void {
@@ -180,8 +179,24 @@ package com.gsn.games.scratchy.views {
 				}
 				TweenMax.delayedCall(.2*i+.2,scratchTicketAnim,[mc])
 			}
+			if (winnings > 0) {
+				TweenMax.delayedCall(.4, showPrizeAnim, [ticket.controlledMc, winnings]);
+			}
 			
 			TweenMax.delayedCall(1.2, showNewTicket);
+		}
+		
+		protected function showPrizeAnim(mc:MovieClip, won:int):void {//TF_amount, 
+			var prizeAnim:MovieClip = cloneObject(iconsLoaded['ANIM_prize']);
+			prizeAnim.x += mc.width/4 + 10;
+			//prizeAnim.y += 36;
+			(prizeAnim.getChildByName('TF_amount') as TextField).text = "+ $"+String(won);
+			mc.addChild(prizeAnim);
+			TweenMax.delayedCall(1, removePrizeAnim, [mc, prizeAnim]);
+		}
+		
+		protected function removePrizeAnim(parent:MovieClip, child:MovieClip):void {
+			parent.removeChild(child);
 		}
 		
 		protected function scratchTicketAnim(mc:MovieClip):void {

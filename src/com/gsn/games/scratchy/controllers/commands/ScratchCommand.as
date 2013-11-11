@@ -27,7 +27,7 @@ package com.gsn.games.scratchy.controllers.commands {
 			//update model
 			model.ticketsRemaining--;
 			trace(">> Tickets remaining: "+model.ticketsRemaining);
-			var winnings:Number = processOutcome(GameData.OUTCOMES[id]) * model.bonusLevel;
+			var winnings:Number = processOutcome(GameData.OUTCOMES[id]) * model.bonusLevel * model.betPerTicket;
 			
 			model.winningsSoFar += winnings;
 			playerMgr.tokens += winnings;

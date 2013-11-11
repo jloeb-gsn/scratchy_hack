@@ -106,6 +106,7 @@ package com.gsn.games.scratchy.views {
 			var betPerTicket:int = GameModel.BET_AMOUNTS[model.betIndex];
 			var totalBet:int = model.totalTickets * betPerTicket;
 			
+			playerManager.tokens = totalBet;
 			if(totalBet <= playerManager.tokens) {
 				dispatch(event);
 			} else {
@@ -146,7 +147,7 @@ package com.gsn.games.scratchy.views {
 		}
 		
 		protected function onGameEnd(event:GameEvent):void {
-			view.onGameEnd();
+			view.onGameEnd(model.totalTickets, model.totalBet, model.winningsSoFar);
 		}
 
         /**

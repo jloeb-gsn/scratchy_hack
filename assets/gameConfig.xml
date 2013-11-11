@@ -10,10 +10,17 @@
     <!-- PANEL LAYOUTS -->
     <panelLayout name="wager_panel" panelname="PANEL_Wager">
     	<element placeholdername="PROP_WagerTitle" assetname="GFX_WagerTitle" instancename="GFX_WagerTitle"/>
-        <element placeholdername="PROP_Tickets" assetname="GFX_NumberofTickets" instancename="numTickets"/>
-        <element placeholdername="PROP_Bet" assetname="GFX_betpertickets" instancename="betPerTickets"/>
-        <element placeholdername="PROP_Total" assetname="GFX_total_bet" instancename="background"/>
+    	<element placeholdername="PROP_Subtract" assetname="BTN_Subtract" instancename="minus" />
+    	<element placeholdername="PROP_Add" assetname="BTN_Add" instancename="plus" />
+        <element placeholdername="PROP_Tickets" assetname="GFX_Tickets" instancename="numTickets"/>
+        <element placeholdername="PROP_Bet" assetname="GFX_Bet" instancename="betPerTickets"/>
+        <element placeholdername="PROP_Total" assetname="GFX_Total" instancename="background"/>
         <element placeholdername="PROP_Start" assetname="BTN_Start" instancename="startButton"/>
+    </panelLayout>
+    <panelLayout name="results_panel" panelname="PANEL_Results">
+    	<element placeholdername="PROP_total" assetname="GFX_TotalWon" instancename="GFX_TotalWon" />
+    	<element placeholdername="PROP_bet" assetname="GFX_Totalbet" instancename="bet" />
+    	<element placeholdername="PROP_tickets" assetname="GFX_Winningtickets" instancename="tickets" />
     </panelLayout>
     <panelLayout name="notickets_panel" panelname="PANEL_MoreTickets">
     	<element placeholdername="PROP_dontgiveup" assetname="GFX_dontgiveup" instancename="GFX_dontgiveup"/>
